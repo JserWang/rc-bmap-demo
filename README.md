@@ -1,2 +1,14 @@
 # rc-bmap-demo
-Demo for rc-bmap
+
+## Install
+
+```bash
+yarn install
+```
+
+## Quick Start
+
+```bash
+yarn start
+```
+

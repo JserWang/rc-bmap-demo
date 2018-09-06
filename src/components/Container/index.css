@@ -1,0 +1,20 @@
+.codeHeader {
+  height: 41px;
+  color: #767676;
+  background: #F8F9FA;
+  font-size: 13px;
+  padding: 0 10px;
+  border-bottom: 1px solid #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+:global(.CodeMirror) {
+  border: 1px solid #eee;
+  height: calc(100% - 41px);
+}
+
+.button {
+  margin-left: 10px;
+}
