@@ -54,6 +54,23 @@ class Container extends Component {
     return result.code;
   }
 
+  copyCode = () => {
+    const { code } = this.props;
+    const input = document.createElement('input');
+    input.setAttribute('readonly', 'readonly');
+    input.setAttribute('value', (this.currentCode || code));
+    document.body.appendChild(input);
+    input.select();
+    if (document.execCommand('copy')) {
+      document.execCommand('copy');
+    }
+    document.body.removeChild(input);
+  }
+
+  handleMouseDown = (e) => {
+    console.log(e);
+  }
+
   render() {
     const { code } = this.props;
     return (
@@ -62,7 +79,7 @@ class Container extends Component {
           <div className={styles.codeHeader}>
             <span>源代码编辑器</span>
             <span>
-              <Button shape="circle" icon="copy" />
+              <Button shape="circle" icon="copy" onClick={this.copyCode} />
               <Button
                 type="primary"
                 className={styles.button}
@@ -80,6 +97,7 @@ class Container extends Component {
           />
         </Col>
         <Col span={17} style={{ height: '100vh' }}>
+          <div id="demoResize" onMouseDown={this.handleMouseDown} />
           <div id="demo" />
         </Col>
       </Row>
