@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
@@ -79,9 +80,6 @@ class CodeMirror extends Component {
   }
 
   focusChanged = (focused) => {
-    this.setState({
-      isFocused: focused,
-    });
     const { onFocusChange } = this.props;
     if (onFocusChange) {
       onFocusChange(focused);
@@ -111,7 +109,7 @@ class CodeMirror extends Component {
 
   render() {
     const {
-      name, path, value, autoFocus,
+      name, path, value,
     } = this.props;
     return (
       <div style={{ height: '100%' }}>
@@ -120,7 +118,6 @@ class CodeMirror extends Component {
           name={name || path}
           defaultValue={value}
           autoComplete="off"
-          autoFocus={autoFocus}
         />
       </div>
     );
@@ -128,3 +125,4 @@ class CodeMirror extends Component {
 }
 
 module.exports = CodeMirror;
+/* eslint-enable */

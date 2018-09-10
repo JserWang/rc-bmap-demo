@@ -13,6 +13,10 @@ module.exports = merge(common, {
     historyApiFallback: true,
     publicPath: '//localhost:9000/',
   },
+  externals: {
+    react: 'React',
+    'react-dom': 'ReactDOM',
+  },
   plugins: [
     new MiniCssExtractPlugin({
       filename: '[name].css',
