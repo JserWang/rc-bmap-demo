@@ -18,13 +18,3 @@
 .button {
   margin-left: 10px;
 }
-
-:global(#demoResize) {
-  width: 10px;
-  height: 100%;
-  position: absolute;
-  left: -5px;
-  background: red;
-  cursor: col-resize;
-  z-index: 10;
-}
