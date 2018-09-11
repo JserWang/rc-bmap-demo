@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   Row, Col, Button,
 } from 'antd';
+// import throttle from 'lodash.throttle';
 import CodeMirror from '../CodeMirror';
 import styles from './index.css';
 
@@ -22,10 +23,16 @@ const MIN_CODE_WIDTH = 200;// 代码编辑器最小宽度
 const MIN_MAP_WIDTH = 200;// 地图最小宽度
 
 class Container extends Component {
+  constructor() {
+    super();
+    this.state = {
+      codeWidth: '',
+      mapWidth: '',
+    };
+  }
+
   componentDidMount() {
     this.handleRunClick();
-    this.codeDiv = document.getElementById('codeDiv');
-    this.mapDiv = document.getElementById('mapDiv');
   }
 
   handleCodeChange = (code) => {
@@ -75,24 +82,26 @@ class Container extends Component {
 
   handleMouseDown = (e) => {
     e.preventDefault();
-    this.codeCurrentwidth = this.codeDiv.clientWidth;// 编辑器宽度
-    this.mapCurrentwidth = this.mapDiv.clientWidth;// 地图宽度
     this.currentClientX = e.clientX || window.event.clientX;// 记录x坐标
     document.onmousemove = () => {
       const clientX = e.clientX || window.event.clientX;
       const dragWidth = clientX - this.currentClientX;// 拖拽距离
-      let codeWidth = this.codeCurrentwidth + dragWidth;
-      let mapWidth = this.mapCurrentwidth - dragWidth;
-      if (codeWidth < MIN_CODE_WIDTH) {
-        codeWidth = MIN_CODE_WIDTH;
-        mapWidth = this.mapCurrentwidth + this.codeCurrentwidth - codeWidth;
+      let codeDragWidth = this.codeCurrentWidth + dragWidth;
+      let mapDragWidth = this.mapCurrentWidth - dragWidth;
+      if (codeDragWidth < MIN_CODE_WIDTH) {
+        codeDragWidth = MIN_CODE_WIDTH;
+        mapDragWidth = this.mapCurrentWidth + this.codeCurrentWidth - codeDragWidth;
       }
-      if (mapWidth < MIN_MAP_WIDTH) {
-        mapWidth = MIN_MAP_WIDTH;
-        codeWidth = this.codeCurrentwidth + this.mapCurrentwidth - mapWidth;
+      if (mapDragWidth < MIN_MAP_WIDTH) {
+        mapDragWidth = MIN_MAP_WIDTH;
+        codeDragWidth = this.codeCurrentWidth + this.mapCurrentWidth - mapDragWidth;
       }
-      this.mapDiv.style.width = `${mapWidth}px`;
-      this.codeDiv.style.width = `${codeWidth}px`;
+
+      this.setState({
+        codeWidth: `${codeDragWidth}px`,
+        mapWidth: `${mapDragWidth}px`,
+      });
+
       document.onmouseup = () => {
         this.handleRunClick();
         document.onmousemove = null;
@@ -101,12 +110,23 @@ class Container extends Component {
     };
   }
 
+  getCodeNode = (ref) => {
+    this.codeCurrentWidth = ref.clientWidth;
+    console.log(this.codeCurrentWidth);
+  }
+
+  getMapNode = (ref) => {
+    this.mapCurrentWidth = ref.clientWidth;
+    console.log(this.mapCurrentWidth);
+  }
+
   render() {
     const { code } = this.props;
+    const { codeWidth, mapWidth } = this.state;
     return (
       <Row style={{ height: '100vh' }}>
-        <Col span={7} id="codeDiv" style={{ background: 'rgb(245, 242, 240)', height: '100vh' }}>
-          <div className={styles.codeHeader}>
+        <Col span={7} style={{ background: 'rgb(245, 242, 240)', height: '100vh', width: codeWidth }}>
+          <div ref={this.getCodeNode} className={styles.codeHeader}>
             <span>源代码编辑器</span>
             <span>
               <Button shape="circle" icon="copy" onClick={this.copyCode} />
@@ -126,19 +146,12 @@ class Container extends Component {
             onChange={this.handleCodeChange}
           />
         </Col>
-        <Col id="mapDiv" span={17} style={{ height: '100vh' }}>
+        <Col span={17} style={{ height: '100vh', width: mapWidth }}>
           <div
-            style={{
-              position: 'absolute',
-              left: '-5px',
-              height: '100%',
-              width: '10px',
-              cursor: 'col-resize',
-              zIndex: '99',
-            }}
+            className={styles.splitLine}
             onMouseDown={this.handleMouseDown}
           />
-          <div id="demo" />
+          <div ref={this.getMapNode} id="demo" />
         </Col>
       </Row>
     );
