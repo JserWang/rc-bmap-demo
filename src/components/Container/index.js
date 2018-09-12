@@ -28,22 +28,13 @@ class Container extends Component {
     this.state = {
       codeWidth: '',
       mapWidth: '',
-      isDrag: false,
     };
+    this.codeNode = React.createRef();
+    this.mapNode = React.createRef();
   }
 
   componentDidMount() {
     this.handleRunClick();
-    this.getCodeNode = (ref) => {
-      this.codeNode = ref;
-      // this.codeCurrentWidth = ref.clientWidth;
-      // console.log(this.codeCurrentWidth);
-    };
-    this.getMapNode = (ref) => {
-      this.mapNode = ref;
-      // this.mapCurrentWidth = ref.clientWidth;
-      // console.log(this.codeCurrentWidth);
-    };
   }
 
   handleCodeChange = (code) => {
@@ -91,44 +82,40 @@ class Container extends Component {
 
   handleMouseDown = (e) => {
     e.preventDefault();
-    this.codeCurrentWidth = this.codeNode.clientWidth;
-    this.mapCurrentWidth = this.mapNode.clientWidth;
-    this.setState({
-      isDrag: true,
-    });
+    this.codeCurrentWidth = this.codeNode.current.clientWidth;
+    this.mapCurrentWidth = this.mapNode.current.clientWidth;
     this.currentClientX = e.clientX || window.event.clientX;
-    document.addEventListener('mousemove', throttle(this.getNewWidth.bind(e), 100), false);
-    document.addEventListener('mouseup', () => {
-      this.setState({
-        isDrag: false,
-      });
-      this.handleRunClick();
-    }, false);
+    this.onDocumentMouseMove = throttle(this.getNewWidth.bind(e), 100);
+    document.addEventListener('mousemove', this.onDocumentMouseMove, false);
+    document.addEventListener('mouseup', this.onDocumentMouseUp, false);
+  }
+
+  onDocumentMouseUp = () => {
+    document.removeEventListener('mousemove', this.onDocumentMouseMove, false);
+    document.removeEventListener('mouseup', this.onDocumentMouseUp, false);
+    this.handleRunClick();
   }
 
   getNewWidth = (e) => {
-    const { isDrag } = this.state;
-    if (isDrag) {
-      const clientX = e.clientX || window.event.clientX;
-      const dragWidth = clientX - this.currentClientX;// 拖拽距离
-      let codeDragWidth = this.codeCurrentWidth + dragWidth;
-      let mapDragWidth = this.mapCurrentWidth - dragWidth;
-      const totalWidth = this.mapCurrentWidth + this.codeCurrentWidth;
-      if (codeDragWidth < MIN_CODE_WIDTH) {
-        codeDragWidth = MIN_CODE_WIDTH;
-        mapDragWidth = totalWidth - codeDragWidth;
-      }
-      if (mapDragWidth < MIN_MAP_WIDTH) {
-        mapDragWidth = MIN_MAP_WIDTH;
-        codeDragWidth = totalWidth - mapDragWidth;
-      }
-      const codePercentWidth = codeDragWidth / totalWidth * 100;
-      const mapPercentWidth = mapDragWidth / totalWidth * 100;
-      this.setState({
-        codeWidth: `${codePercentWidth}%`,
-        mapWidth: `${mapPercentWidth}%`,
-      });
+    const clientX = e.clientX || window.event.clientX;
+    const dragWidth = clientX - this.currentClientX;// 拖拽距离
+    let codeDragWidth = this.codeCurrentWidth + dragWidth;
+    let mapDragWidth = this.mapCurrentWidth - dragWidth;
+    const totalWidth = this.mapCurrentWidth + this.codeCurrentWidth;
+    if (codeDragWidth < MIN_CODE_WIDTH) {
+      codeDragWidth = MIN_CODE_WIDTH;
+      mapDragWidth = totalWidth - codeDragWidth;
     }
+    if (mapDragWidth < MIN_MAP_WIDTH) {
+      mapDragWidth = MIN_MAP_WIDTH;
+      codeDragWidth = totalWidth - mapDragWidth;
+    }
+    const codePercentWidth = codeDragWidth / totalWidth * 100;
+    const mapPercentWidth = mapDragWidth / totalWidth * 100;
+    this.setState({
+      codeWidth: `${codePercentWidth}%`,
+      mapWidth: `${mapPercentWidth}%`,
+    });
   }
 
   render() {
@@ -137,7 +124,7 @@ class Container extends Component {
     return (
       <Row style={{ height: '100vh' }}>
         <Col span={7} className={styles.code} style={{ width: codeWidth }}>
-          <div ref={this.getCodeNode} className={styles.codeHeader}>
+          <div ref={this.codeNode} className={styles.codeHeader}>
             <span>源代码编辑器</span>
             <span>
               <Button shape="circle" icon="copy" onClick={this.copyCode} />
@@ -162,7 +149,7 @@ class Container extends Component {
             className={styles.splitLine}
             onMouseDown={this.handleMouseDown}
           />
-          <div ref={this.getMapNode} id="demo" />
+          <div ref={this.mapNode} id="demo" />
         </Col>
       </Row>
     );
