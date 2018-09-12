@@ -20,25 +20,29 @@ class App extends Component {
     super();
     this.state = {
       siderWidth: MIN_MENU_WIDTH,
-      currentWdth: MIN_MENU_WIDTH,
     };
+
+    this.currentWidth = MIN_MENU_WIDTH;
+    this.onDocumentMouseMove = throttle(this.getNewWidth, 16);
+  }
+
+  onDocumentMouseUp = () => {
+    document.removeEventListener('mousemove', this.onDocumentMouseMove, false);
+    document.removeEventListener('mouseup', this.onDocumentMouseUp, false);
   }
 
   handleMouseDown = (e) => {
     e.preventDefault();
-    this.e = window.event;
     const { siderWidth } = this.state;
     this.siderWidth = siderWidth;
     this.currentClientX = e.clientX || window.event.clientX;
-    this.onDocumentMouseMove = throttle(this.getNewWidth(e), 100);
     document.addEventListener('mousemove', this.onDocumentMouseMove, false);
     document.addEventListener('mouseup', this.onDocumentMouseUp, false);
   }
 
-  getNewWidth = (e) => {
-    const a = () => {
-      const clientX = e.clientX || window.event.clientX;
-      console.log(clientX);
+  getNewWidth = () => {
+    if (window.event) {
+      const { clientX } = window.event;
       let menuWidth = this.siderWidth + clientX - this.currentClientX;
       if (menuWidth < MIN_MENU_WIDTH) {
         menuWidth = MIN_MENU_WIDTH;
@@ -49,26 +53,20 @@ class App extends Component {
       this.setState({
         siderWidth: menuWidth,
       });
-    };
-    return a;
-  }
-
-  onDocumentMouseUp = () => {
-    document.removeEventListener('mousemove', this.onDocumentMouseMove, false);
-    document.removeEventListener('mouseup', this.onDocumentMouseUp, false);
+    }
   }
 
   toggleMenu = () => {
-    const { siderWidth, currentWdth } = this.state;
+    const { siderWidth } = this.state;
     if (siderWidth === 0) {
       this.setState({
-        siderWidth: currentWdth,
+        siderWidth: this.currentWidth,
       });
     } else {
       this.setState({
         siderWidth: 0,
-        currentWdth: siderWidth,
       });
+      this.currentWidth = siderWidth;
     }
   };
 
@@ -89,7 +87,7 @@ class App extends Component {
               onClick={this.toggleMenu}
             >
               <Icon
-                type={siderWidth === 0 ? 'left' : 'right'}
+                type={siderWidth === 0 ? 'right' : 'left'}
                 className={styles.arrow}
               />
             </div>

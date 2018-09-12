@@ -31,6 +31,8 @@ class Container extends Component {
     };
     this.codeNode = React.createRef();
     this.mapNode = React.createRef();
+
+    this.onDocumentMouseMove = throttle(this.getNewWidth, 16);
   }
 
   componentDidMount() {
@@ -85,7 +87,6 @@ class Container extends Component {
     this.codeCurrentWidth = this.codeNode.current.clientWidth;
     this.mapCurrentWidth = this.mapNode.current.clientWidth;
     this.currentClientX = e.clientX || window.event.clientX;
-    this.onDocumentMouseMove = throttle(this.getNewWidth.bind(e), 100);
     document.addEventListener('mousemove', this.onDocumentMouseMove, false);
     document.addEventListener('mouseup', this.onDocumentMouseUp, false);
   }
@@ -93,29 +94,30 @@ class Container extends Component {
   onDocumentMouseUp = () => {
     document.removeEventListener('mousemove', this.onDocumentMouseMove, false);
     document.removeEventListener('mouseup', this.onDocumentMouseUp, false);
-    this.handleRunClick();
   }
 
-  getNewWidth = (e) => {
-    const clientX = e.clientX || window.event.clientX;
-    const dragWidth = clientX - this.currentClientX;// 拖拽距离
-    let codeDragWidth = this.codeCurrentWidth + dragWidth;
-    let mapDragWidth = this.mapCurrentWidth - dragWidth;
-    const totalWidth = this.mapCurrentWidth + this.codeCurrentWidth;
-    if (codeDragWidth < MIN_CODE_WIDTH) {
-      codeDragWidth = MIN_CODE_WIDTH;
-      mapDragWidth = totalWidth - codeDragWidth;
+  getNewWidth = () => {
+    if (window.event) {
+      const { clientX } = window.event;
+      const dragWidth = clientX - this.currentClientX;// 拖拽距离
+      let codeDragWidth = this.codeCurrentWidth + dragWidth;
+      let mapDragWidth = this.mapCurrentWidth - dragWidth;
+      const totalWidth = this.mapCurrentWidth + this.codeCurrentWidth;
+      if (codeDragWidth < MIN_CODE_WIDTH) {
+        codeDragWidth = MIN_CODE_WIDTH;
+        mapDragWidth = totalWidth - codeDragWidth;
+      }
+      if (mapDragWidth < MIN_MAP_WIDTH) {
+        mapDragWidth = MIN_MAP_WIDTH;
+        codeDragWidth = totalWidth - mapDragWidth;
+      }
+      const codePercentWidth = codeDragWidth / totalWidth * 100;
+      const mapPercentWidth = mapDragWidth / totalWidth * 100;
+      this.setState({
+        codeWidth: `${codePercentWidth}%`,
+        mapWidth: `${mapPercentWidth}%`,
+      });
     }
-    if (mapDragWidth < MIN_MAP_WIDTH) {
-      mapDragWidth = MIN_MAP_WIDTH;
-      codeDragWidth = totalWidth - mapDragWidth;
-    }
-    const codePercentWidth = codeDragWidth / totalWidth * 100;
-    const mapPercentWidth = mapDragWidth / totalWidth * 100;
-    this.setState({
-      codeWidth: `${codePercentWidth}%`,
-      mapWidth: `${mapPercentWidth}%`,
-    });
   }
 
   render() {

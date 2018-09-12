@@ -16,6 +16,9 @@
   top: 50%;
   margin-top: -20px;
   z-index: 99;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .right {
@@ -25,5 +28,5 @@
 
 .arrow {
   color: white;
-  margin-top: 13px;
+  font-size: 12px;
 }
