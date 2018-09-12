@@ -85,7 +85,7 @@ class Container extends Component {
     this.codeCurrentWidth = this.codeNode.current.clientWidth;
     this.mapCurrentWidth = this.mapNode.current.clientWidth;
     this.currentClientX = window.event.clientX;
-    this.onDocumentMouseMove = throttle(this.getNewWidth(), 100);
+    this.onDocumentMouseMove = throttle(this.getNewWidth, 100);
     document.addEventListener('mousemove', this.onDocumentMouseMove, false);
     document.addEventListener('mouseup', this.onDocumentMouseUp, false);
   }
@@ -93,10 +93,9 @@ class Container extends Component {
   onDocumentMouseUp = () => {
     document.removeEventListener('mousemove', this.onDocumentMouseMove, false);
     document.removeEventListener('mouseup', this.onDocumentMouseUp, false);
-    this.handleRunClick();
   }
 
-  getNewWidth = () => () => {
+  getNewWidth = () => {
     if (!window.event) {
       return;
     }

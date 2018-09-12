@@ -29,12 +29,12 @@ class App extends Component {
     const { siderWidth } = this.state;
     this.siderWidth = siderWidth;
     this.currentClientX = window.event.clientX;
-    this.onDocumentMouseMove = throttle(this.getNewWidth(), 100);
+    this.onDocumentMouseMove = throttle(this.getNewWidth, 100);
     document.addEventListener('mousemove', this.onDocumentMouseMove, false);
     document.addEventListener('mouseup', this.onDocumentMouseUp, false);
   }
 
-  getNewWidth = () => () => {
+  getNewWidth = () => {
     if (!window.event) {
       return;
     }
