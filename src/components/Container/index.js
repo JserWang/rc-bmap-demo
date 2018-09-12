@@ -84,8 +84,8 @@ class Container extends Component {
     e.preventDefault();
     this.codeCurrentWidth = this.codeNode.current.clientWidth;
     this.mapCurrentWidth = this.mapNode.current.clientWidth;
-    this.currentClientX = e.clientX || window.event.clientX;
-    this.onDocumentMouseMove = throttle(this.getNewWidth.bind(e), 100);
+    this.currentClientX = window.event.clientX;
+    this.onDocumentMouseMove = throttle(this.getNewWidth(), 100);
     document.addEventListener('mousemove', this.onDocumentMouseMove, false);
     document.addEventListener('mouseup', this.onDocumentMouseUp, false);
   }
@@ -96,8 +96,11 @@ class Container extends Component {
     this.handleRunClick();
   }
 
-  getNewWidth = (e) => {
-    const clientX = e.clientX || window.event.clientX;
+  getNewWidth = () => () => {
+    if (!window.event) {
+      return;
+    }
+    const { clientX } = window.event;
     const dragWidth = clientX - this.currentClientX;// 拖拽距离
     let codeDragWidth = this.codeCurrentWidth + dragWidth;
     let mapDragWidth = this.mapCurrentWidth - dragWidth;
