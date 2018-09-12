@@ -21,41 +21,36 @@ class App extends Component {
     this.state = {
       siderWidth: MIN_MENU_WIDTH,
       currentWdth: MIN_MENU_WIDTH,
-      isDrag: false,
     };
   }
 
   handleMouseDown = (e) => {
+    e.preventDefault();
     const { siderWidth } = this.state;
     this.siderWidth = siderWidth;
-    e.preventDefault();
-    this.setState({
-      isDrag: true,
-    });
     this.currentClientX = e.clientX || window.event.clientX;
-    document.addEventListener('mousemove', throttle(this.getNewWidth.bind(e), 100), false);
-    document.addEventListener('mouseup', () => {
-      this.setState({
-        isDrag: false,
-      });
-    }, false);
+    this.onDocumentMouseMove = throttle(this.getNewWidth.bind(e), 100);
+    document.addEventListener('mousemove', this.onDocumentMouseMove, false);
+    document.addEventListener('mouseup', this.onDocumentMouseUp, false);
+  }
+
+  onDocumentMouseUp = () => {
+    document.removeEventListener('mousemove', this.onDocumentMouseMove, false);
+    document.removeEventListener('mouseup', this.onDocumentMouseUp, false);
   }
 
   getNewWidth = (e) => {
-    const { isDrag } = this.state;
-    if (isDrag) {
-      const clientX = e.clientX || window.event.clientX;
-      let menuWidth = this.siderWidth + clientX - this.currentClientX;
-      if (menuWidth < MIN_MENU_WIDTH) {
-        menuWidth = MIN_MENU_WIDTH;
-      }
-      if (menuWidth > MAX_MENU_WIDTH) {
-        menuWidth = MAX_MENU_WIDTH;
-      }
-      this.setState({
-        siderWidth: menuWidth,
-      });
+    const clientX = e.clientX || window.event.clientX;
+    let menuWidth = this.siderWidth + clientX - this.currentClientX;
+    if (menuWidth < MIN_MENU_WIDTH) {
+      menuWidth = MIN_MENU_WIDTH;
     }
+    if (menuWidth > MAX_MENU_WIDTH) {
+      menuWidth = MAX_MENU_WIDTH;
+    }
+    this.setState({
+      siderWidth: menuWidth,
+    });
   }
 
   toggleMenu = () => {
@@ -79,7 +74,6 @@ class App extends Component {
         <Layout>
           <Sider
             width={siderWidth}
-            ref={this.getMenuNode}
           >
             <div
               className={styles.splitLine}
