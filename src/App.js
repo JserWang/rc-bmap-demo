@@ -26,31 +26,36 @@ class App extends Component {
 
   handleMouseDown = (e) => {
     e.preventDefault();
+    this.e = window.event;
     const { siderWidth } = this.state;
     this.siderWidth = siderWidth;
     this.currentClientX = e.clientX || window.event.clientX;
-    this.onDocumentMouseMove = throttle(this.getNewWidth.bind(e), 100);
+    this.onDocumentMouseMove = throttle(this.getNewWidth(e), 100);
     document.addEventListener('mousemove', this.onDocumentMouseMove, false);
     document.addEventListener('mouseup', this.onDocumentMouseUp, false);
+  }
+
+  getNewWidth = (e) => {
+    const a = () => {
+      const clientX = e.clientX || window.event.clientX;
+      console.log(clientX);
+      let menuWidth = this.siderWidth + clientX - this.currentClientX;
+      if (menuWidth < MIN_MENU_WIDTH) {
+        menuWidth = MIN_MENU_WIDTH;
+      }
+      if (menuWidth > MAX_MENU_WIDTH) {
+        menuWidth = MAX_MENU_WIDTH;
+      }
+      this.setState({
+        siderWidth: menuWidth,
+      });
+    };
+    return a;
   }
 
   onDocumentMouseUp = () => {
     document.removeEventListener('mousemove', this.onDocumentMouseMove, false);
     document.removeEventListener('mouseup', this.onDocumentMouseUp, false);
-  }
-
-  getNewWidth = (e) => {
-    const clientX = e.clientX || window.event.clientX;
-    let menuWidth = this.siderWidth + clientX - this.currentClientX;
-    if (menuWidth < MIN_MENU_WIDTH) {
-      menuWidth = MIN_MENU_WIDTH;
-    }
-    if (menuWidth > MAX_MENU_WIDTH) {
-      menuWidth = MAX_MENU_WIDTH;
-    }
-    this.setState({
-      siderWidth: menuWidth,
-    });
   }
 
   toggleMenu = () => {
