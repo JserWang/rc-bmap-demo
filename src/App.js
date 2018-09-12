@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, BrowserRouter as Router } from 'react-router-dom';
 import { Layout, Menu, Icon } from 'antd';
+import throttle from 'lodash.throttle';
 import menuData from './menuData';
 import route from './router';
 import styles from './App.css';
@@ -20,16 +21,31 @@ class App extends Component {
     this.state = {
       siderWidth: MIN_MENU_WIDTH,
       currentWdth: MIN_MENU_WIDTH,
+      isDrag: false,
     };
   }
 
   handleMouseDown = (e) => {
-    e.preventDefault();
     const { siderWidth } = this.state;
-    const currentClientX = e.clientX || window.event.clientX;// 记录x坐标
-    document.onmousemove = () => {
+    this.siderWidth = siderWidth;
+    e.preventDefault();
+    this.setState({
+      isDrag: true,
+    });
+    this.currentClientX = e.clientX || window.event.clientX;
+    document.addEventListener('mousemove', throttle(this.getNewWidth.bind(e), 100), false);
+    document.addEventListener('mouseup', () => {
+      this.setState({
+        isDrag: false,
+      });
+    }, false);
+  }
+
+  getNewWidth = (e) => {
+    const { isDrag } = this.state;
+    if (isDrag) {
       const clientX = e.clientX || window.event.clientX;
-      let menuWidth = siderWidth + clientX - currentClientX;
+      let menuWidth = this.siderWidth + clientX - this.currentClientX;
       if (menuWidth < MIN_MENU_WIDTH) {
         menuWidth = MIN_MENU_WIDTH;
       }
@@ -39,12 +55,8 @@ class App extends Component {
       this.setState({
         siderWidth: menuWidth,
       });
-    };
-    document.onmouseup = () => {
-      document.onmousemove = null;
-      document.onmouseup = null;
-    };
-  };
+    }
+  }
 
   toggleMenu = () => {
     const { siderWidth, currentWdth } = this.state;
@@ -76,7 +88,6 @@ class App extends Component {
             <div
               className={styles.toggleBtn}
               onClick={this.toggleMenu}
-              onKeyDown={this.toggleMenu}
             >
               <Icon
                 type={siderWidth === 0 ? 'left' : 'right'}

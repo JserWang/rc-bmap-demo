@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   Row, Col, Button,
 } from 'antd';
-// import throttle from 'lodash.throttle';
+import throttle from 'lodash.throttle';
 import CodeMirror from '../CodeMirror';
 import styles from './index.css';
 
@@ -28,11 +28,22 @@ class Container extends Component {
     this.state = {
       codeWidth: '',
       mapWidth: '',
+      isDrag: false,
     };
   }
 
   componentDidMount() {
     this.handleRunClick();
+    this.getCodeNode = (ref) => {
+      this.codeNode = ref;
+      // this.codeCurrentWidth = ref.clientWidth;
+      // console.log(this.codeCurrentWidth);
+    };
+    this.getMapNode = (ref) => {
+      this.mapNode = ref;
+      // this.mapCurrentWidth = ref.clientWidth;
+      // console.log(this.codeCurrentWidth);
+    };
   }
 
   handleCodeChange = (code) => {
@@ -63,16 +74,14 @@ class Container extends Component {
 
   copyCode = () => {
     const { code } = this.props;
-    const input = document.createElement('input');
-    input.setAttribute('readonly', 'readonly');
-    input.setAttribute('value', (this.currentCode || code));
-    document.body.appendChild(input);
-    input.select();
+    const text = document.createElement('textarea');
+    text.innerHTML = this.currentCode || code;
+    document.body.appendChild(text);
+    text.select();
     if (document.execCommand('copy')) {
       document.execCommand('copy');
-      alert('复制成功');
     }
-    document.body.removeChild(input);
+    document.body.removeChild(text);
   }
 
   transformCode = (code) => {
@@ -82,42 +91,44 @@ class Container extends Component {
 
   handleMouseDown = (e) => {
     e.preventDefault();
-    this.currentClientX = e.clientX || window.event.clientX;// 记录x坐标
-    document.onmousemove = () => {
+    this.codeCurrentWidth = this.codeNode.clientWidth;
+    this.mapCurrentWidth = this.mapNode.clientWidth;
+    this.setState({
+      isDrag: true,
+    });
+    this.currentClientX = e.clientX || window.event.clientX;
+    document.addEventListener('mousemove', throttle(this.getNewWidth.bind(e), 100), false);
+    document.addEventListener('mouseup', () => {
+      this.setState({
+        isDrag: false,
+      });
+      this.handleRunClick();
+    }, false);
+  }
+
+  getNewWidth = (e) => {
+    const { isDrag } = this.state;
+    if (isDrag) {
       const clientX = e.clientX || window.event.clientX;
       const dragWidth = clientX - this.currentClientX;// 拖拽距离
       let codeDragWidth = this.codeCurrentWidth + dragWidth;
       let mapDragWidth = this.mapCurrentWidth - dragWidth;
+      const totalWidth = this.mapCurrentWidth + this.codeCurrentWidth;
       if (codeDragWidth < MIN_CODE_WIDTH) {
         codeDragWidth = MIN_CODE_WIDTH;
-        mapDragWidth = this.mapCurrentWidth + this.codeCurrentWidth - codeDragWidth;
+        mapDragWidth = totalWidth - codeDragWidth;
       }
       if (mapDragWidth < MIN_MAP_WIDTH) {
         mapDragWidth = MIN_MAP_WIDTH;
-        codeDragWidth = this.codeCurrentWidth + this.mapCurrentWidth - mapDragWidth;
+        codeDragWidth = totalWidth - mapDragWidth;
       }
-
+      const codePercentWidth = codeDragWidth / totalWidth * 100;
+      const mapPercentWidth = mapDragWidth / totalWidth * 100;
       this.setState({
-        codeWidth: `${codeDragWidth}px`,
-        mapWidth: `${mapDragWidth}px`,
+        codeWidth: `${codePercentWidth}%`,
+        mapWidth: `${mapPercentWidth}%`,
       });
-
-      document.onmouseup = () => {
-        this.handleRunClick();
-        document.onmousemove = null;
-        document.onmouseup = null;
-      };
-    };
-  }
-
-  getCodeNode = (ref) => {
-    this.codeCurrentWidth = ref.clientWidth;
-    console.log(this.codeCurrentWidth);
-  }
-
-  getMapNode = (ref) => {
-    this.mapCurrentWidth = ref.clientWidth;
-    console.log(this.mapCurrentWidth);
+    }
   }
 
   render() {
@@ -125,7 +136,7 @@ class Container extends Component {
     const { codeWidth, mapWidth } = this.state;
     return (
       <Row style={{ height: '100vh' }}>
-        <Col span={7} style={{ background: 'rgb(245, 242, 240)', height: '100vh', width: codeWidth }}>
+        <Col span={7} className={styles.code} style={{ width: codeWidth }}>
           <div ref={this.getCodeNode} className={styles.codeHeader}>
             <span>源代码编辑器</span>
             <span>

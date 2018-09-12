@@ -27,3 +27,8 @@
   cursor: col-resize;
   z-index: 99;
 }
+
+.code{
+  height: 100vh;
+  background: rgb(245, 242, 240);
+}
