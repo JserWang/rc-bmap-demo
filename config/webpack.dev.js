@@ -12,10 +12,20 @@ module.exports = merge(common, {
     port: 9000,
     historyApiFallback: true,
     publicPath: '//localhost:9000/',
-  },
-  externals: {
-    react: 'React',
-    'react-dom': 'ReactDOM',
+    // 错误、警告展示设置
+    overlay: {
+      errors: true,
+      warnings: true,
+    },
+    disableHostCheck: true,
+    quiet: false,
+    noInfo: false,
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:3000',
+        changeOrigin: true,
+      },
+    },
   },
   plugins: [
     new MiniCssExtractPlugin({

@@ -1,58 +1,41 @@
-const Koa = require('koa');
-const route = require('koa-route');
 const fs = require('fs');
 const os = require('os');
-const webpack = require("webpack");
-const tmpDir = os.tmpdir();
+const Koa = require('koa');
+const route = require('koa-route');
+const kStatic = require('koa-static');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const config = require('../online_config/webpack.prod');
+
+const path = `${'/tmp' || os.tmpdir()}/bmap`;
 
 const app = new Koa();
-
-const run = ctx => {
-  let uid = getUid(ctx);
-  // 当前用户不存在唯一标识
-  const path = `${tmpDir}/${uid}`;
-  const fileName = saveTmpFile(ctx, path);  
-
-  const compiler = webpack({ 
-    entry: `${path}/${fileName}.js`, 
-    output: {
-      path: `${path}`,
-      filename: `${fileName}_bundle.js`
-    }
-  });
-
-  compileFile(compiler)
-    .then((res) => {
-      console.log(res);
-    });
-}
+let uuid = 0;
 
 function getUid(ctx) {
   let uid = ctx.cookies.get('uid');
-  // 当前用户不存在唯一标识
+  // if no uid then set cookies
   if (!uid) {
-    uid = Date.now();
-    ctx.cookies.set('uid', uid);
+    uid = uuid;
+    ctx.cookies.set('uid', `${uuid}`);
+    uuid += 1;
   }
   return uid;
 }
 
-function saveTmpFile(ctx, path) {
-  const reqBody = ctx.query;
-  // 检测目录是否存在
+function createAndSaveFile(fileName, content) {
+  // // check directory exists
   const exists = fs.existsSync(path);
   if (!exists) {
     fs.mkdirSync(path);
   }
-  // 创建临时文件
-  const fileName = `${Date.now()}`;
-  fs.appendFileSync(`${path}/${fileName}.js`, `${reqBody.code}`);
-  return fileName;
+  // create temp file
+  fs.appendFileSync(`${path}/${fileName}`, `${content}`);
 }
 
 function compileFile(compiler) {
-  return new Promise((resolve, reject) => {
-    // 编译文件
+  return new Promise((resolve) => {
+    // compile file
     compiler.run((err, stats) => {
       if (err || stats.hasErrors()) {
         resolve({
@@ -69,6 +52,60 @@ function compileFile(compiler) {
   });
 }
 
-app.use(route.get('/run', run));
+function appendHtml(uid) {
+  const template = `<!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="UTF-8">
+          <meta name="keywords" content="React,百度地图,rc-bmap,BaiduMap,bmap,示例" />
+          <title>rc-bmap示例</title>
+        </head>
+        <body>
+          <div id="root"></div>
+          <script src="//localhost:3000/${uid}_bundle.js?${Date.now()}" crossorigin="anonymous"></script>
+          <script src="//localhost:3000/0.${uid}_bundle.js?${Date.now()}" crossorigin="anonymous"></script>
+        </body>
+      </html>
+  `;
+
+  return template;
+}
+
+const run = async (ctx) => {
+  const reqBody = ctx.query;
+  if (!reqBody.code) {
+    // TODO: error response: invalid code
+  }
+
+  const uid = getUid(ctx);
+  const fileName = `${uid}.js`;
+
+  createAndSaveFile(`${fileName}`, reqBody.code);
+
+  // merge config, replace entry and output to tmpdir
+  const mergedConfig = merge(config, {
+    entry: `${path}/${fileName}`,
+    output: {
+      path: `${path}`,
+      filename: `${uid}_bundle.js`,
+    },
+  });
+  const compiler = webpack(mergedConfig);
+
+  const res = await compileFile(compiler);
+  // delete user file, just save bundle file
+  fs.unlinkSync(`${path}/${fileName}`);
+
+  ctx.body = appendHtml(uid);
+};
+
+app.use(async (ctx, next) => {
+  ctx.set('Access-Control-Allow-Origin', 'http://localhost:9000');
+  await next();
+});
+
+app.use(route.get('/api/run', run));
+
+app.use(kStatic(`${path}`));
 
 app.listen(3000);

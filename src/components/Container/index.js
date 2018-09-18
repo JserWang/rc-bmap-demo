@@ -3,6 +3,7 @@ import {
   Row, Col, Button,
 } from 'antd';
 import throttle from 'lodash.throttle';
+import axios from 'axios';
 import CodeMirror from '../CodeMirror';
 import styles from './index.css';
 
@@ -36,7 +37,7 @@ class Container extends Component {
   }
 
   componentDidMount() {
-    this.handleRunClick();
+    // this.handleRunClick();
   }
 
   handleCodeChange = (code) => {
@@ -46,20 +47,34 @@ class Container extends Component {
   handleRunClick = () => {
     const { code } = this.props;
     try {
-      const result = this.transformCode(this.currentCode || code);
-      /* eslint-disable */
-      eval(`
-        function require(path) {
-          if (path === 'react' ) {
-            path = 'React';
-          } else if (path === 'react-dom') {
-            path = 'ReactDOM';
-          }
-          return window[path];
-        }
-        ${result}
-      `);
-      /* eslint-enable */
+      axios.get('/api/run', {
+        params: {
+          code: this.currentCode || code,
+        },
+      }).then((res) => {
+        const frame = document.querySelector('#preview');
+        let iframe = frame.contentWindow
+          || frame.contentDocument.document || frame.contentDocument;
+        iframe = iframe.document;
+        iframe.open('text/html');
+        iframe.write(res.data);
+        iframe.close();
+      });
+
+      // const result = this.transformCode(this.currentCode || code);
+      // /* eslint-disable */
+      // eval(`
+      //   function require(path) {
+      //     if (path === 'react' ) {
+      //       path = 'React';
+      //     } else if (path === 'react-dom') {
+      //       path = 'ReactDOM';
+      //     }
+      //     return window[path];
+      //   }
+      //   ${result}
+      // `);
+      // /* eslint-enable */
     } catch (err) {
       console.log(err);
     }
@@ -151,7 +166,7 @@ class Container extends Component {
             className={styles.splitLine}
             onMouseDown={this.handleMouseDown}
           />
-          <div ref={this.mapNode} id="demo" />
+          <iframe title="demo" name="preview" height="100%" width="100%" id="preview" frameBorder="0" />
         </Col>
       </Row>
     );

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "export NODE_ENV=production && webpack --config config/webpack.prod.js",
-    "start": "webpack-dev-server --config config/webpack.dev.js"
+    "start": "webpack-dev-server --config config/webpack.dev.js",
+    "serv": "node server/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -26,6 +27,9 @@
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.10.0",
     "html-webpack-plugin": "^3.2.0",
+    "koa": "^2.5.3",
+    "koa-route": "^3.2.0",
+    "koa-static": "^5.0.0",
     "mini-css-extract-plugin": "^0.4.1",
     "optimize-css-assets-webpack-plugin": "^5.0.0",
     "style-loader": "^0.22.1",
@@ -38,6 +42,7 @@
   },
   "dependencies": {
     "antd": "^3.8.1",
+    "axios": "^0.18.0",
     "babel-core": "^6.26.3",
     "classnames": "^2.2.6",
     "codemirror": "^5.40.0",
@@ -45,6 +50,8 @@
     "lodash.isequal": "^4.5.0",
     "prop-type": "^0.0.1",
     "rc-bmap": "^0.2.4",
+    "react": "^16.5.1",
+    "react-dom": "^16.5.1",
     "react-router-dom": "^4.3.1",
     "text-loader": "^0.0.1"
   }
