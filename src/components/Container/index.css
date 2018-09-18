@@ -32,3 +32,8 @@
   height: 100vh;
   background: rgb(245, 242, 240);
 }
+
+
+.previewContainer {
+  height: 100%;
+}

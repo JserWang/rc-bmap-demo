@@ -57,8 +57,7 @@ function appendHtml(uid) {
       <html>
         <head>
           <meta charset="UTF-8">
-          <meta name="keywords" content="React,百度地图,rc-bmap,BaiduMap,bmap,示例" />
-          <title>rc-bmap示例</title>
+          <style>body { margin: 0; }</style>
         </head>
         <body>
           <div id="root"></div>
@@ -93,10 +92,16 @@ const run = async (ctx) => {
   const compiler = webpack(mergedConfig);
 
   const res = await compileFile(compiler);
+  let html = '';
+  if (res.hasError) {
+    // TODO: handle error, generate a error html.
+
+  } else {
+    html = appendHtml(uid);
+  }
   // delete user file, just save bundle file
   fs.unlinkSync(`${path}/${fileName}`);
-
-  ctx.body = appendHtml(uid);
+  ctx.body = html;
 };
 
 app.use(async (ctx, next) => {

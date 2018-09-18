@@ -46,35 +46,13 @@ class Container extends Component {
 
   handleRunClick = () => {
     const { code } = this.props;
+    // TODO: add loading
     try {
       axios.get('/api/run', {
         params: {
           code: this.currentCode || code,
         },
-      }).then((res) => {
-        const frame = document.querySelector('#preview');
-        let iframe = frame.contentWindow
-          || frame.contentDocument.document || frame.contentDocument;
-        iframe = iframe.document;
-        iframe.open('text/html');
-        iframe.write(res.data);
-        iframe.close();
-      });
-
-      // const result = this.transformCode(this.currentCode || code);
-      // /* eslint-disable */
-      // eval(`
-      //   function require(path) {
-      //     if (path === 'react' ) {
-      //       path = 'React';
-      //     } else if (path === 'react-dom') {
-      //       path = 'ReactDOM';
-      //     }
-      //     return window[path];
-      //   }
-      //   ${result}
-      // `);
-      // /* eslint-enable */
+      }).then(this.createIFrame);
     } catch (err) {
       console.log(err);
     }
@@ -111,9 +89,10 @@ class Container extends Component {
     document.removeEventListener('mouseup', this.onDocumentMouseUp, false);
   }
 
-  getNewWidth = () => {
-    if (window.event) {
-      const { clientX } = window.event;
+  getNewWidth = (e) => {
+    if (e || window.event) {
+      const event = e || window.event;
+      const { clientX } = event;
       const dragWidth = clientX - this.currentClientX;// 拖拽距离
       let codeDragWidth = this.codeCurrentWidth + dragWidth;
       let mapDragWidth = this.mapCurrentWidth - dragWidth;
@@ -133,6 +112,29 @@ class Container extends Component {
         mapWidth: `${mapPercentWidth}%`,
       });
     }
+  }
+
+  createIFrame = (res) => {
+    const parent = document.querySelector('#preview-container');
+    let frame = document.querySelector('#preview');
+    if (frame) {
+      parent.removeChild(frame);
+    }
+    const frameNode = document.createElement('iframe');
+    frameNode.name = 'preview';
+    frameNode.height = '100%';
+    frameNode.width = '100%';
+    frameNode.id = 'preview';
+    frameNode.frameBorder = '0';
+    parent.appendChild(frameNode);
+    frame = frameNode;
+
+    let iframe = frame.contentWindow
+      || frame.contentDocument.document || frame.contentDocument;
+    iframe = iframe.document;
+    iframe.open('text/html');
+    iframe.write(res.data);
+    iframe.close();
   }
 
   render() {
@@ -166,7 +168,7 @@ class Container extends Component {
             className={styles.splitLine}
             onMouseDown={this.handleMouseDown}
           />
-          <iframe title="demo" name="preview" height="100%" width="100%" id="preview" frameBorder="0" />
+          <div id="preview-container" className={styles.previewContainer} ref={this.mapNode} />
         </Col>
       </Row>
     );

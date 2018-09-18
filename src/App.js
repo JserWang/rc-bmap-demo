@@ -40,9 +40,10 @@ class App extends Component {
     document.addEventListener('mouseup', this.onDocumentMouseUp, false);
   }
 
-  getNewWidth = () => {
-    if (window.event) {
-      const { clientX } = window.event;
+  getNewWidth = (e) => {
+    if (e || window.event) {
+      const event = e || window.event;
+      const { clientX } = event;
       let menuWidth = this.siderWidth + clientX - this.currentClientX;
       if (menuWidth < MIN_MENU_WIDTH) {
         menuWidth = MIN_MENU_WIDTH;
