@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Row, Col, Button, Spin,
+  Row, Col, Button, Spin, message,
 } from 'antd';
 import throttle from 'lodash.throttle';
 import axios from 'axios';
@@ -49,15 +49,17 @@ class Container extends Component {
     this.setState({
       loading: true,
     });
-    try {
-      axios.get('/api/run', {
-        params: {
-          code: this.currentCode,
-        },
-      }).then(this.processCodeResult);
-    } catch (err) {
-      console.log(err);
-    }
+    axios.get('/api/run', {
+      params: {
+        code: this.currentCode,
+      },
+    }).then(this.processCodeResult)
+      .catch(() => {
+        this.setState({
+          loading: false,
+        });
+        message.warning('Server error', 1.5);
+      });
   }
 
   copyCode = () => {

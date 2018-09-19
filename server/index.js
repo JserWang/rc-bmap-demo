@@ -37,17 +37,27 @@ function compileFile(compiler) {
   return new Promise((resolve) => {
     // compile file
     compiler.run((err, stats) => {
-      if (err || stats.hasErrors()) {
+      if (err && err.details) {
         resolve({
-          assets: stats.compilation.errors,
+          message: err.details,
           hasError: true,
         });
-      } else {
-        resolve({
-          assets: stats.compilation.assets,
-          hasError: false,
-        });
+        return;
       }
+
+      if (stats.hasErrors()) {
+        const info = stats.toJson();
+        resolve({
+          message: info.errors,
+          hasError: true,
+        });
+        return;
+      }
+
+      resolve({
+        assets: stats.compilation.assets,
+        hasError: false,
+      });
     });
   });
 }
@@ -70,10 +80,35 @@ function appendHtml(uid) {
   return template;
 }
 
+function generateErrorTemplate(err) {
+  const strToHtml = str => (str || '')
+    .replace(/&/g, '&')
+    .replace(/</g, '<')
+    .replace(/>/g, '>')
+    .replace(/"/g, '"')
+    .replace(/'/g, "'")
+    .replace(/\[(\d+)m/g, '')
+    .replace(/ /g, ' ')
+    .replace(/\n/g, '<br />');
+  const template = `
+          <!DOCTYPE html> 
+          <html>
+          <head>
+          </head>
+          <body>
+            <div style="color: orangered">
+              ${strToHtml(err.toString()) || ''}
+            </div>
+          </body>
+          </html>`;
+  return template;
+}
+
 const run = async (ctx) => {
   const reqBody = ctx.query;
   if (!reqBody.code) {
-    // TODO: error response: invalid code
+    ctx.body = '';
+    return;
   }
 
   const uid = getUid(ctx);
@@ -94,8 +129,7 @@ const run = async (ctx) => {
   const res = await compileFile(compiler);
   let html = '';
   if (res.hasError) {
-    // TODO: handle error, generate a error html.
-
+    html = generateErrorTemplate(res.message);
   } else {
     html = appendHtml(uid);
   }
