@@ -12,6 +12,8 @@ const {
 
 const app = new Koa();
 
+const env = process.env.NODE_ENV;
+
 let uuid = 0;
 const path = `${'/tmp' || os.tmpdir()}/bmap`;
 
@@ -49,13 +51,15 @@ const run = async (ctx) => {
   ctx.body = html;
 };
 
-app.use(async (ctx, next) => {
-  ctx.set('Access-Control-Allow-Origin', 'http://localhost:9000');
-  await next();
-});
+if (env === 'development') {
+  app.use(async (ctx, next) => {
+    ctx.set('Access-Control-Allow-Origin', 'http://localhost:9000');
+    await next();
+  });
+
+  app.use(kStatic(`${path}`));
+}
 
 app.use(route.get('/api/run', run));
-
-app.use(kStatic(`${path}`));
 
 app.listen(3000);

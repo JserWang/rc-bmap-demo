@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "export NODE_ENV=production && webpack --config config/webpack.prod.js",
     "start": "webpack-dev-server --config config/webpack.dev.js",
-    "serv": "node server/index.js"
+    "serv": "export NODE_ENV=development && node server/index.js"
   },
   "author": "",
   "license": "ISC",
