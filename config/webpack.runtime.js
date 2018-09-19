@@ -10,7 +10,7 @@ module.exports = {
       new UglifyJsPlugin({
         cache: true,
         parallel: true,
-        sourceMap: true,
+        sourceMap: false,
         uglifyOptions: {
           mangle: {
             safari10: true,
@@ -21,6 +21,31 @@ module.exports = {
     ],
     runtimeChunk: {
       name: 'manifest',
+    },
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        libs: {// node_modules内的依赖库
+          test: /[\\/]node_modules[\\/]/,
+          name: 'chunk-libs',
+          minChunks: 1, // 被不同entry引用次数(import),1次的话没必要提取
+          maxInitialRequests: 5,
+          minSize: 0,
+          priority: 100,
+          chunks: 'initial',
+          // enforce: true?
+        },
+        antd: {
+          test: /[\\/]node_modules[\\/]antd[\\/]/,
+          name: 'chunk-antd',
+          priority: 110,
+        },
+        map: {
+          test: /[\\/]node_modules[\\/]rc-bmap[\\/]/,
+          name: 'chunk-map',
+          priority: 115,
+        },
+      },
     },
   },
   module: {
