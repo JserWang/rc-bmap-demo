@@ -5,7 +5,7 @@ const route = require('koa-route');
 const kStatic = require('koa-static');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const config = require('../online_config/webpack.prod');
+const config = require('../config/webpack.runtime');
 
 const path = `${'/tmp' || os.tmpdir()}/bmap`;
 
@@ -57,7 +57,7 @@ function appendHtml(uid) {
       <html>
         <head>
           <meta charset="UTF-8">
-          <style>body { margin: 0; }</style>
+          <style>html, body, #root { margin: 0; padding: 0; height: 100%; }</style>
         </head>
         <body>
           <div id="root"></div>

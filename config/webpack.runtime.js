@@ -1,18 +1,27 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
-const PUBLIC_PATH = process.env.NODE_ENV === 'production' ? './' : '../';
-const devMode = process.env.NODE_ENV !== 'production';
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
-  entry: {
-    main: './index.js',
-  },
-  output: {
-    path: path.resolve(__dirname, '../dist'),
-    filename: '[name].[contenthash:12].js',
-    publicPath: PUBLIC_PATH,
+  mode: 'production',
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true,
+        uglifyOptions: {
+          mangle: {
+            safari10: true,
+          },
+        },
+      }),
+      new OptimizeCSSAssetsPlugin({}), // use OptimizeCSSAssetsPlugin
+    ],
+    runtimeChunk: {
+      name: 'manifest',
+    },
   },
   module: {
     rules: [
@@ -23,7 +32,14 @@ module.exports = {
         options: {
           presets: ['babel-preset-env', 'babel-preset-react'].map(require.resolve),
           plugins: [
+            [require.resolve('babel-plugin-transform-runtime'), {
+              helpers: false,
+              polyfill: false,
+              regenerator: true,
+              moduleName: 'babel-runtime',
+            }],
             require.resolve('babel-plugin-transform-class-properties'),
+            [require.resolve('babel-plugin-import'), { libraryName: 'antd', libraryDirectory: 'es', style: 'css' }],
           ],
         },
       },
@@ -31,7 +47,7 @@ module.exports = {
         test: /\.css$/,
         exclude: /node_modules/,
         use: [
-          devMode ? { loader: 'style-loader' } : MiniCssExtractPlugin.loader,
+          MiniCssExtractPlugin.loader,
           'css-loader?modules&localIdentName=[name]-[hash:base64:5]',
         ],
       },
@@ -73,15 +89,11 @@ module.exports = {
     modules: [
       path.resolve(__dirname, '../node_modules'),
     ],
-    alias: {
-      components: path.resolve(__dirname, '../src/components'),
-      utils: path.resolve(__dirname, '../src/util'),
-    },
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      title: 'Demo',
-      template: './index.html',
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash:12].css',
+      chunkFilename: '[name].[contenthash:12].css', // use contenthash *
     }),
   ],
 };

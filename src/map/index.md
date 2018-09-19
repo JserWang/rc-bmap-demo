@@ -36,4 +36,7 @@ class Example extends React.Component {
   }
 }
 
-ReactDOM.render(<Example />, document.getElementById('root'));
+ReactDOM.render(
+  <Example />, 
+  document.getElementById('root')
+);

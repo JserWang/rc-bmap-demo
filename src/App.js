@@ -74,7 +74,7 @@ class App extends Component {
   render() {
     const { siderWidth } = this.state;
     return (
-      <Router basename="/examples">
+      <Router>
         <Layout>
           <Sider
             width={siderWidth}
@@ -87,12 +87,9 @@ class App extends Component {
               className={styles.toggleBtn}
               onClick={this.toggleMenu}
             >
-              <Icon
-                type={siderWidth === 0 ? 'right' : 'left'}
-                className={styles.arrow}
-              />
+              <Icon type={siderWidth === 0 ? 'right' : 'left'} />
             </div>
-            <Menu theme="dark" mode="inline">
+            <Menu mode="inline">
               {
                 menuData.map((item, index) => (
                   <SubMenu

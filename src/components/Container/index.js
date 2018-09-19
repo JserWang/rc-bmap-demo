@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import {
-  Row, Col, Button,
+  Row, Col, Button, Spin,
 } from 'antd';
 import throttle from 'lodash.throttle';
 import axios from 'axios';
-import CodeMirror from '../CodeMirror';
+import CodeMirror from '@uiw/react-codemirror';
 import styles from './index.css';
-
-require('codemirror/mode/javascript/javascript');
+// for codeMirror
+import 'codemirror/addon/display/autorefresh';
+import 'codemirror/addon/comment/comment';
+import 'codemirror/addon/edit/matchbrackets';
+import 'codemirror/keymap/sublime';
+import 'codemirror/theme/dracula.css';
 
 const options = {
-  lineNumbers: true,
-};
-
-const babelOptions = {
-  presets: ['stage-0', 'react', 'es2015'],
-  plugins: [
-    'transform-class-properties',
-  ],
+  theme: 'dracula',
+  tabSize: 2,
+  keyMap: 'sublime',
+  mode: 'jsx',
 };
 
 const MIN_CODE_WIDTH = 200;// 代码编辑器最小宽度
@@ -29,6 +29,7 @@ class Container extends Component {
     this.state = {
       codeWidth: '',
       mapWidth: '',
+      loading: false,
     };
     this.codeNode = React.createRef();
     this.mapNode = React.createRef();
@@ -37,42 +38,37 @@ class Container extends Component {
   }
 
   componentDidMount() {
-    // this.handleRunClick();
+    this.handleRunClick();
   }
 
-  handleCodeChange = (code) => {
-    this.currentCode = code;
+  handleCodeChange = (instance) => {
+    this.currentCode = instance.getValue();
   }
 
   handleRunClick = () => {
-    const { code } = this.props;
-    // TODO: add loading
+    this.setState({
+      loading: true,
+    });
     try {
       axios.get('/api/run', {
         params: {
-          code: this.currentCode || code,
+          code: this.currentCode,
         },
-      }).then(this.createIFrame);
+      }).then(this.processCodeResult);
     } catch (err) {
       console.log(err);
     }
   }
 
   copyCode = () => {
-    const { code } = this.props;
     const text = document.createElement('textarea');
-    text.innerHTML = this.currentCode || code;
+    text.innerHTML = this.currentCode;
     document.body.appendChild(text);
     text.select();
     if (document.execCommand('copy')) {
       document.execCommand('copy');
     }
     document.body.removeChild(text);
-  }
-
-  transformCode = (code) => {
-    const result = window.Babel.transform(code, babelOptions);
-    return result.code;
   }
 
   handleMouseDown = (e) => {
@@ -114,7 +110,15 @@ class Container extends Component {
     }
   }
 
-  createIFrame = (res) => {
+  processCodeResult = (res) => {
+    this.setState({
+      loading: false,
+    });
+
+    this.createIFrame(res.data);
+  }
+
+  createIFrame = (html) => {
     const parent = document.querySelector('#preview-container');
     let frame = document.querySelector('#preview');
     if (frame) {
@@ -133,16 +137,16 @@ class Container extends Component {
       || frame.contentDocument.document || frame.contentDocument;
     iframe = iframe.document;
     iframe.open('text/html');
-    iframe.write(res.data);
+    iframe.write(html);
     iframe.close();
   }
 
   render() {
     const { code } = this.props;
-    const { codeWidth, mapWidth } = this.state;
+    const { codeWidth, mapWidth, loading } = this.state;
     return (
-      <Row style={{ height: '100vh' }}>
-        <Col span={7} className={styles.code} style={{ width: codeWidth }}>
+      <Row align="middle" className={styles.container}>
+        <Col span={9} className={styles.code} style={{ width: codeWidth }}>
           <div ref={this.codeNode} className={styles.codeHeader}>
             <span>源代码编辑器</span>
             <span>
@@ -156,19 +160,23 @@ class Container extends Component {
               />
             </span>
           </div>
-          <CodeMirror
-            value={code}
-            options={options}
-            className={styles.codeContainer}
-            onChange={this.handleCodeChange}
-          />
+          <div className={styles.codeWrapper}>
+            <CodeMirror
+              value={code}
+              options={options}
+              className={styles.codeContainer}
+              onChange={this.handleCodeChange}
+            />
+          </div>
         </Col>
-        <Col span={17} style={{ height: '100vh', width: mapWidth }}>
+        <Col span={15} className={styles.rightWrapper} style={{ width: mapWidth }}>
           <div
             className={styles.splitLine}
             onMouseDown={this.handleMouseDown}
           />
-          <div id="preview-container" className={styles.previewContainer} ref={this.mapNode} />
+          <Spin size="large" spinning={loading} wrapperClassName={styles.spinWrapper}>
+            <div id="preview-container" className={styles.previewContainer} ref={this.mapNode} />
+          </Spin>
         </Col>
       </Row>
     );
