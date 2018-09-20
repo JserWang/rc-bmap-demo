@@ -78,11 +78,15 @@ class Container extends Component {
     this.codeCurrentWidth = this.codeNode.current.clientWidth;
     this.mapCurrentWidth = this.mapNode.current.clientWidth;
     this.currentClientX = (e || window.event).clientX;
+    // fix iframe mouse event
+    document.querySelector('#preview-container').style.pointerEvents = 'none';
+
     document.addEventListener('mousemove', this.onDocumentMouseMove, false);
     document.addEventListener('mouseup', this.onDocumentMouseUp, false);
   }
 
   onDocumentMouseUp = () => {
+    document.querySelector('#preview-container').style.pointerEvents = null;
     document.removeEventListener('mousemove', this.onDocumentMouseMove, false);
     document.removeEventListener('mouseup', this.onDocumentMouseUp, false);
   }
