@@ -1,10 +1,87 @@
 export default [
   {
-    text: '地图展示',
+    text: '地图示例',
     children: [
       {
-        text: '地图',
+        text: '地图展示',
         path: '/map',
+      },
+      {
+        text: '同时加载两个地图',
+        path: '/twoMap',
+      },
+      {
+        text: '根据城市名设置地图中心点',
+        path: '/center',
+      },
+      {
+        text: '设置地图最大、最小级别',
+        path: '/mostZoom',
+      },
+      {
+        text: '移动地图',
+        path: '/move',
+      },
+      {
+        text: '缩放地图',
+        path: '/setZoom',
+      },
+      {
+        text: '拖拽地图',
+        path: '/dragging',
+      },
+      {
+        text: '设置地图显示范围',
+        path: '/setBounds',
+      },
+      {
+        text: '获取地图显示范围',
+        path: '/getBounds',
+      },
+      {
+        text: '获取两点间距离',
+        path: '/getDistance',
+      },
+      {
+        text: '关闭默认地图POI事件',
+        path: '/closePOI',
+      },
+    ],
+  },
+  {
+    text: '地图控件示例',
+    children: [
+      {
+        text: '添加工具条、比例尺控件',
+        path: '/navigation_scale',
+      },
+      {
+        text: '定位控件',
+        path: '/geolocation',
+      },
+      {
+        text: '缩略地图控件',
+        path: '/overviewMap',
+      },
+      {
+        text: '比例尺控件',
+        path: '/scale',
+      },
+      {
+        text: '切换全景地图控件',
+        path: '/panorama',
+      },
+      {
+        text: '版权控件',
+        path: '/copyright',
+      },
+      {
+        text: '城市列表控件',
+        path: '/cityList',
+      },
+      {
+        text: '切换地图类型控件',
+        path: '/mapTypeCtrl',
       },
     ],
   },
@@ -50,43 +127,6 @@ export default [
       {
         text: '地面叠加层',
         path: '/ground',
-      },
-    ],
-  },
-  {
-    text: '控件',
-    children: [
-      {
-        text: '平移缩放控件',
-        path: '/navigation',
-      },
-      {
-        text: '定位控件',
-        path: '/geolocation',
-      },
-      {
-        text: '缩略地图控件',
-        path: '/overviewMap',
-      },
-      {
-        text: '比例尺控件',
-        path: '/scale',
-      },
-      {
-        text: '切换全景地图控件',
-        path: '/panorama',
-      },
-      {
-        text: '版权控件',
-        path: '/copyright',
-      },
-      {
-        text: '城市列表控件',
-        path: '/cityList',
-      },
-      {
-        text: '切换地图类型控件',
-        path: '/mapTypeCtrl',
       },
     ],
   },
@@ -162,3 +202,4 @@ export default [
     ],
   },
 ];
+
