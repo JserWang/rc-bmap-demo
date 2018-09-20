@@ -68,6 +68,7 @@ module.exports = {
     alias: {
       components: path.resolve(__dirname, '../src/components'),
       utils: path.resolve(__dirname, '../src/util'),
+      views: path.resolve(__dirname, '../src/views'),
     },
   },
   plugins: [
