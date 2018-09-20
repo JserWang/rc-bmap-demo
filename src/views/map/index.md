@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {
   Map,
-  MapType,
   Navigation,
 } from 'rc-bmap';
 
@@ -20,7 +19,7 @@ class Example extends React.Component {
 
   render() {
     const {
-      zoom, center
+      zoom, center,
     } = this.state;
     return (
       <div style={{ height: '100vh' }}>
@@ -29,7 +28,7 @@ class Example extends React.Component {
           center={center}
           zoom={zoom}
         >
-            <Navigation />
+          <Navigation />
         </Map>
       </div>
     );
@@ -37,6 +36,6 @@ class Example extends React.Component {
 }
 
 ReactDOM.render(
-  <Example />, 
-  document.getElementById('root')
+  <Example />,
+  document.getElementById('root'),
 );

@@ -15,7 +15,7 @@ const app = new Koa();
 const env = process.env.NODE_ENV;
 
 let uuid = 0;
-const path = `${'/tmp' || os.tmpdir()}/bmap`;
+const path = `${os.tmpdir()}/bmap`;
 
 const run = async (ctx) => {
   const reqBody = ctx.query;

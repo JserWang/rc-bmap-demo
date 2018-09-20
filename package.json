@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "export NODE_ENV=production && webpack --config config/webpack.prod.js",
+    "build": "cross-env NODE_ENV=production webpack --config config/webpack.prod.js",
     "start": "webpack-dev-server --config config/webpack.dev.js",
-    "serv": "export NODE_ENV=development && node server/index.js"
+    "serv": "cross-env NODE_ENV=development node server/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -47,6 +47,7 @@
     "babel-core": "^6.26.3",
     "classnames": "^2.2.6",
     "codemirror": "^5.40.0",
+    "cross-env": "^5.2.0",
     "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0",
     "prop-type": "^0.0.1",

@@ -77,7 +77,7 @@ class Container extends Component {
     e.preventDefault();
     this.codeCurrentWidth = this.codeNode.current.clientWidth;
     this.mapCurrentWidth = this.mapNode.current.clientWidth;
-    this.currentClientX = e.clientX || window.event.clientX;
+    this.currentClientX = (e || window.event).clientX;
     document.addEventListener('mousemove', this.onDocumentMouseMove, false);
     document.addEventListener('mouseup', this.onDocumentMouseUp, false);
   }
