@@ -21,7 +21,6 @@ import ClosePOI from 'views/map/closePOI/index.md';
 import NavScale from 'views/control/navScale/index.md';
 import Geolocation from 'views/control/geolocation/index.md';
 import OverviewMap from 'views/control/overviewMap/index.md';
-import Scale from 'views/control/scale/index.md';
 import Panorama from 'views/control/panorama/index.md';
 import Copyright from 'views/control/copyright/index.md';
 import CityList from 'views/control/cityList/index.md';
@@ -71,7 +70,6 @@ const route = () => (
     <Route path="/navigation_scale" component={getExample(NavScale)} />
     <Route path="/geolocation" component={getExample(Geolocation)} />
     <Route path="/overViewMap" component={getExample(OverviewMap)} />
-    <Route path="/scale" component={getExample(Scale)} />
     <Route path="/copyright" component={getExample(Copyright)} />
     <Route path="/mapTypeCtrl" component={getExample(MapTypeCtrl)} />
     <Route path="/panorama" component={getExample(Panorama)} />

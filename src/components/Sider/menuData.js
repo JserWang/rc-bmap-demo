@@ -56,16 +56,16 @@ export default [
         path: '/navigation_scale',
       },
       {
+        text: '添加/删除地图类型、缩略图控件',
+        path: '/mapTypeCtrl',
+      },
+      {
         text: '定位控件',
         path: '/geolocation',
       },
       {
         text: '缩略地图控件',
         path: '/overviewMap',
-      },
-      {
-        text: '比例尺控件',
-        path: '/scale',
       },
       {
         text: '切换全景地图控件',
@@ -78,10 +78,6 @@ export default [
       {
         text: '城市列表控件',
         path: '/cityList',
-      },
-      {
-        text: '切换地图类型控件',
-        path: '/mapTypeCtrl',
       },
     ],
   },

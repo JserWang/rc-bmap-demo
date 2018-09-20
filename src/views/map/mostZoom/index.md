@@ -15,12 +15,13 @@ class Example extends React.Component {
       },
       minZoom: 4,
       maxZoom: 8,
+      scrollWheelZoom: true,
     };
   }
 
   render() {
     const {
-      center, minZoom, maxZoom,
+      center, minZoom, maxZoom, scrollWheelZoom
     } = this.state;
     return (
       <div style={{ height: '100vh' }}>
@@ -29,6 +30,7 @@ class Example extends React.Component {
           center={center}
           minZoom={minZoom}
           maxZoom={maxZoom}
+          scrollWheelZoom={scrollWheelZoom}
         >
           <Navigation />
         </Map>

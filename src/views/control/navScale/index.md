@@ -14,7 +14,7 @@ class Example extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      offset: {
+      scaleoffset: {
         width: 70,
         height: 10,
       },
@@ -23,12 +23,25 @@ class Example extends React.Component {
       showZoomInfo: true,
       geolocation: false,
       unit: LengthUnit.METRIC,
+      isShow: false,
     };
+  }
+
+  addControl = () => {
+    this.setState({
+      isShow: true,
+    });
+  }
+
+  removeControl = () => {
+    this.setState({
+      isShow: false,
+    });
   }
 
   render() {
     const {
-      offset, anchor, type, showZoomInfo, geolocation, unit,
+      scaleoffset, anchor, type, showZoomInfo, geolocation, unit, isShow,
     } = this.state;
     return (
       <div style={{ height: '90vh' }}>
@@ -36,17 +49,8 @@ class Example extends React.Component {
           ak="dbLUj1nQTvDvKXkov5fhnH5HIE88RUEO"
           scrollWheelZoom
         >
-          <Navigation
-            anchor={anchor}
-            type={type}
-            showZoomInfo={showZoomInfo}
-            geolocation={geolocation}
-          />
-          <Scale
-            offset={offset}
-            anchor={anchor}
-            unit={unit}
-          />
+          { isShow && (<Navigation anchor={anchor} type={type} showZoomInfo={showZoomInfo} geolocation={geolocation} />)}
+          { isShow && (<Scale offset={scaleoffset} anchor={anchor} unit={unit} />)}
         </Map>
         <Button onClick={this.addControl}>添加</Button>
         <Button onClick={this.removeControl}>删除</Button>
