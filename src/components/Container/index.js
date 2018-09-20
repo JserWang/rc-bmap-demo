@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
 import {
-  Row, Col, Button,
+  Row, Col, Button, Spin, message,
 } from 'antd';
 import throttle from 'lodash.throttle';
-import CodeMirror from '../CodeMirror';
+import axios from 'axios';
+import CodeMirror from '@uiw/react-codemirror';
 import styles from './index.css';
-
-require('codemirror/mode/javascript/javascript');
+// for codeMirror
+import 'codemirror/addon/display/autorefresh';
+import 'codemirror/addon/comment/comment';
+import 'codemirror/addon/edit/matchbrackets';
+import 'codemirror/keymap/sublime';
+import 'codemirror/theme/dracula.css';
 
 const options = {
-  lineNumbers: true,
-};
-
-const babelOptions = {
-  presets: ['stage-0', 'react', 'es2015'],
-  plugins: [
-    'transform-class-properties',
-  ],
+  theme: 'dracula',
+  tabSize: 2,
+  keyMap: 'sublime',
+  mode: 'jsx',
 };
 
 const MIN_CODE_WIDTH = 200;// 代码编辑器最小宽度
@@ -28,45 +29,42 @@ class Container extends Component {
     this.state = {
       codeWidth: '',
       mapWidth: '',
+      loading: false,
     };
     this.codeNode = React.createRef();
     this.mapNode = React.createRef();
+
+    this.onDocumentMouseMove = throttle(this.getNewWidth, 16);
   }
 
   componentDidMount() {
     this.handleRunClick();
   }
 
-  handleCodeChange = (code) => {
-    this.currentCode = code;
+  handleCodeChange = (instance) => {
+    this.currentCode = instance.getValue();
   }
 
   handleRunClick = () => {
-    const { code } = this.props;
-    try {
-      const result = this.transformCode(this.currentCode || code);
-      /* eslint-disable */
-      eval(`
-        function require(path) {
-          if (path === 'react' ) {
-            path = 'React';
-          } else if (path === 'react-dom') {
-            path = 'ReactDOM';
-          }
-          return window[path];
-        }
-        ${result}
-      `);
-      /* eslint-enable */
-    } catch (err) {
-      console.log(err);
-    }
+    this.setState({
+      loading: true,
+    });
+    axios.get('/api/run', {
+      params: {
+        code: this.currentCode,
+      },
+    }).then(this.processCodeResult)
+      .catch(() => {
+        this.setState({
+          loading: false,
+        });
+        message.warning('Server error', 1.5);
+      });
   }
 
   copyCode = () => {
-    const { code } = this.props;
     const text = document.createElement('textarea');
-    text.innerHTML = this.currentCode || code;
+    text.innerHTML = this.currentCode;
     document.body.appendChild(text);
     text.select();
     if (document.execCommand('copy')) {
@@ -75,9 +73,74 @@ class Container extends Component {
     document.body.removeChild(text);
   }
 
-  transformCode = (code) => {
-    const result = window.Babel.transform(code, babelOptions);
-    return result.code;
+  handleMouseDown = (e) => {
+    e.preventDefault();
+    this.codeCurrentWidth = this.codeNode.current.clientWidth;
+    this.mapCurrentWidth = this.mapNode.current.clientWidth;
+    this.currentClientX = e.clientX || window.event.clientX;
+    document.addEventListener('mousemove', this.onDocumentMouseMove, false);
+    document.addEventListener('mouseup', this.onDocumentMouseUp, false);
+  }
+
+  onDocumentMouseUp = () => {
+    document.removeEventListener('mousemove', this.onDocumentMouseMove, false);
+    document.removeEventListener('mouseup', this.onDocumentMouseUp, false);
+  }
+
+  getNewWidth = (e) => {
+    if (e || window.event) {
+      const event = e || window.event;
+      const { clientX } = event;
+      const dragWidth = clientX - this.currentClientX;// 拖拽距离
+      let codeDragWidth = this.codeCurrentWidth + dragWidth;
+      let mapDragWidth = this.mapCurrentWidth - dragWidth;
+      const totalWidth = this.mapCurrentWidth + this.codeCurrentWidth;
+      if (codeDragWidth < MIN_CODE_WIDTH) {
+        codeDragWidth = MIN_CODE_WIDTH;
+        mapDragWidth = totalWidth - codeDragWidth;
+      }
+      if (mapDragWidth < MIN_MAP_WIDTH) {
+        mapDragWidth = MIN_MAP_WIDTH;
+        codeDragWidth = totalWidth - mapDragWidth;
+      }
+      const codePercentWidth = codeDragWidth / totalWidth * 100;
+      const mapPercentWidth = mapDragWidth / totalWidth * 100;
+      this.setState({
+        codeWidth: `${codePercentWidth}%`,
+        mapWidth: `${mapPercentWidth}%`,
+      });
+    }
+  }
+
+  processCodeResult = (res) => {
+    this.setState({
+      loading: false,
+    });
+
+    this.createIFrame(res.data);
+  }
+
+  createIFrame = (html) => {
+    const parent = document.querySelector('#preview-container');
+    let frame = document.querySelector('#preview');
+    if (frame) {
+      parent.removeChild(frame);
+    }
+    const frameNode = document.createElement('iframe');
+    frameNode.name = 'preview';
+    frameNode.height = '100%';
+    frameNode.width = '100%';
+    frameNode.id = 'preview';
+    frameNode.frameBorder = '0';
+    parent.appendChild(frameNode);
+    frame = frameNode;
+
+    let iframe = frame.contentWindow
+      || frame.contentDocument.document || frame.contentDocument;
+    iframe = iframe.document;
+    iframe.open('text/html');
+    iframe.write(html);
+    iframe.close();
   }
 
   handleMouseDown = (e) => {
@@ -122,10 +185,10 @@ class Container extends Component {
 
   render() {
     const { code } = this.props;
-    const { codeWidth, mapWidth } = this.state;
+    const { codeWidth, mapWidth, loading } = this.state;
     return (
-      <Row style={{ height: '100vh' }}>
-        <Col span={7} className={styles.code} style={{ width: codeWidth }}>
+      <Row align="middle" className={styles.container}>
+        <Col span={9} className={styles.code} style={{ width: codeWidth }}>
           <div ref={this.codeNode} className={styles.codeHeader}>
             <span>源代码编辑器</span>
             <span>
@@ -139,19 +202,23 @@ class Container extends Component {
               />
             </span>
           </div>
-          <CodeMirror
-            value={code}
-            options={options}
-            className={styles.codeContainer}
-            onChange={this.handleCodeChange}
-          />
+          <div className={styles.codeWrapper}>
+            <CodeMirror
+              value={code}
+              options={options}
+              className={styles.codeContainer}
+              onChange={this.handleCodeChange}
+            />
+          </div>
         </Col>
-        <Col span={17} style={{ height: '100vh', width: mapWidth }}>
+        <Col span={15} className={styles.rightWrapper} style={{ width: mapWidth }}>
           <div
             className={styles.splitLine}
             onMouseDown={this.handleMouseDown}
           />
-          <div ref={this.mapNode} id="demo" />
+          <Spin size="large" spinning={loading} wrapperClassName={styles.spinWrapper}>
+            <div id="preview-container" className={styles.previewContainer} ref={this.mapNode} />
+          </Spin>
         </Col>
       </Row>
     );

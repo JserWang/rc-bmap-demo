@@ -20,35 +20,10 @@ class App extends Component {
     super();
     this.state = {
       siderWidth: MIN_MENU_WIDTH,
-      currentWdth: MIN_MENU_WIDTH,
     };
-  }
 
-  handleMouseDown = (e) => {
-    e.preventDefault();
-    const { siderWidth } = this.state;
-    this.siderWidth = siderWidth;
-    this.currentClientX = window.event.clientX;
-    this.onDocumentMouseMove = throttle(this.getNewWidth, 100);
-    document.addEventListener('mousemove', this.onDocumentMouseMove, false);
-    document.addEventListener('mouseup', this.onDocumentMouseUp, false);
-  }
-
-  getNewWidth = () => {
-    if (!window.event) {
-      return;
-    }
-    const { clientX } = window.event;
-    let menuWidth = this.siderWidth + clientX - this.currentClientX;
-    if (menuWidth < MIN_MENU_WIDTH) {
-      menuWidth = MIN_MENU_WIDTH;
-    }
-    if (menuWidth > MAX_MENU_WIDTH) {
-      menuWidth = MAX_MENU_WIDTH;
-    }
-    this.setState({
-      siderWidth: menuWidth,
-    });
+    this.currentWidth = MIN_MENU_WIDTH;
+    this.onDocumentMouseMove = throttle(this.getNewWidth, 16);
   }
 
   onDocumentMouseUp = () => {
@@ -56,24 +31,50 @@ class App extends Component {
     document.removeEventListener('mouseup', this.onDocumentMouseUp, false);
   }
 
+  handleMouseDown = (e) => {
+    e.preventDefault();
+    const { siderWidth } = this.state;
+    this.siderWidth = siderWidth;
+    this.currentClientX = e.clientX || window.event.clientX;
+    document.addEventListener('mousemove', this.onDocumentMouseMove, false);
+    document.addEventListener('mouseup', this.onDocumentMouseUp, false);
+  }
+
+  getNewWidth = (e) => {
+    if (e || window.event) {
+      const event = e || window.event;
+      const { clientX } = event;
+      let menuWidth = this.siderWidth + clientX - this.currentClientX;
+      if (menuWidth < MIN_MENU_WIDTH) {
+        menuWidth = MIN_MENU_WIDTH;
+      }
+      if (menuWidth > MAX_MENU_WIDTH) {
+        menuWidth = MAX_MENU_WIDTH;
+      }
+      this.setState({
+        siderWidth: menuWidth,
+      });
+    }
+  }
+
   toggleMenu = () => {
-    const { siderWidth, currentWdth } = this.state;
+    const { siderWidth } = this.state;
     if (siderWidth === 0) {
       this.setState({
-        siderWidth: currentWdth,
+        siderWidth: this.currentWidth,
       });
     } else {
       this.setState({
         siderWidth: 0,
-        currentWdth: siderWidth,
       });
+      this.currentWidth = siderWidth;
     }
   };
 
   render() {
     const { siderWidth } = this.state;
     return (
-      <Router basename="/examples">
+      <Router>
         <Layout>
           <Sider
             width={siderWidth}
@@ -86,12 +87,9 @@ class App extends Component {
               className={styles.toggleBtn}
               onClick={this.toggleMenu}
             >
-              <Icon
-                type={siderWidth === 0 ? 'left' : 'right'}
-                className={styles.arrow}
-              />
+              <Icon type={siderWidth === 0 ? 'right' : 'left'} />
             </div>
-            <Menu theme="dark" mode="inline">
+            <Menu mode="inline">
               {
                 menuData.map((item, index) => (
                   <SubMenu

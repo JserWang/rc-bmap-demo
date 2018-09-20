@@ -12,10 +12,21 @@
   right: -10px;
   height: 40px;
   width: 12px;
-  background: #001529;
+  background: #fff;
   top: 50%;
   margin-top: -20px;
   z-index: 99;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 12px;
+}
+
+.toggleBtn:hover {
+  color: #1890ff;
 }
 
 .right {
@@ -23,7 +34,6 @@
   height: 100vh;
 }
 
-.arrow {
-  color: white;
-  margin-top: 13px;
+:global(.ant-layout-sider) {
+  background: #fff;
 }

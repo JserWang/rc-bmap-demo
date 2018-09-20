@@ -1,3 +1,7 @@
+.container {
+  height: 100vh;
+}
+
 .codeHeader {
   height: 41px;
   color: #767676;
@@ -10,13 +14,12 @@
   justify-content: space-between;
 }
 
-:global(.CodeMirror) {
-  border: 1px solid #eee;
-  height: calc(100% - 41px);
-}
-
 .button {
   margin-left: 10px;
+}
+
+.codeWrapper {
+  height: calc(100% - 41px);
 }
 
 .splitLine {
@@ -31,4 +34,24 @@
 .code{
   height: 100vh;
   background: rgb(245, 242, 240);
+}
+
+.previewContainer {
+  height: 100%;
+}
+
+.rightWrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinWrapper {
+  height: 100%;
+  flex: 1;
+}
+
+.spinWrapper :global(.ant-spin-container) {
+  height: 100%;
 }

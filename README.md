@@ -9,6 +9,7 @@ yarn install
 ## Quick Start
 
 ```bash
-yarn start
-```
+yarn start // start client
 
+yarn run serv // start server
+```
