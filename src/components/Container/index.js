@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Row, Col, Button, Spin, message,
+  Row, Col, Button, Spin, message, Tooltip,
 } from 'antd';
 import throttle from 'lodash.throttle';
 import axios from 'axios';
@@ -156,14 +156,18 @@ class Container extends Component {
           <div ref={this.codeNode} className={styles.codeHeader}>
             <span>源代码编辑器</span>
             <span>
-              <Button shape="circle" icon="copy" onClick={this.copyCode} />
-              <Button
-                type="primary"
-                className={styles.button}
-                shape="circle"
-                icon="play-circle"
-                onClick={this.handleRunClick}
-              />
+              <Tooltip placement="left" title="复制代码">
+                <Button shape="circle" icon="copy" onClick={this.copyCode} />
+              </Tooltip>
+              <Tooltip placement="right" title="执行代码">
+                <Button
+                  type="primary"
+                  className={styles.button}
+                  shape="circle"
+                  icon="play-circle"
+                  onClick={this.handleRunClick}
+                />
+              </Tooltip>
             </span>
           </div>
           <div className={styles.codeWrapper}>
