@@ -1,3 +1,7 @@
+/**
+ *@title：添加/删除地面叠加层
+ */
+
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Map, Ground } from 'rc-bmap';
@@ -24,12 +28,25 @@ class GroundExample extends Component {
       events: {
         click: this.handleClick,
       },
+      visible: false,
     };
+  }
+
+  addGround = () => {
+    this.setState({
+      visible: true,
+    });
+  }
+
+  removeGround = () => {
+    this.setState({
+      visible: false,
+    });
   }
 
   render() {
     const {
-      bounds, opacity, maxZoom, minZoom, events, imageURL,
+      bounds, opacity, maxZoom, minZoom, events, imageURL, visible,
     } = this.state;
     return (
       <div style={{ height: '90vh' }}>
@@ -38,7 +55,8 @@ class GroundExample extends Component {
           scrollWheelZoom
           zoom={12}
         >
-          <Ground
+          {visible
+          && (<Ground
             bounds={bounds}
             imageURL={imageURL}
             opacity={opacity}
@@ -46,7 +64,10 @@ class GroundExample extends Component {
             minZoom={minZoom}
             events={events}
           />
+          )}
         </Map>
+        <Button onClick={this.addGround}>添加</Button>
+        <Button onClick={this.removeGround}>删除</Button>
       </div>
     );
   }

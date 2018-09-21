@@ -1,13 +1,16 @@
+/**
+ *@title：添加行政区域
+ */
+
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Map, Boundary } from 'rc-bmap';
-import { Button } from 'antd';
 
 class BoundaryExample extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '杭州市萧山区',
+      name: '北京市海淀区',
       onError: this.onError,
       autoViewport: true,
       strokeColor: 'blue',
@@ -32,7 +35,7 @@ class BoundaryExample extends Component {
       massClear, editing, clicking, events,
     } = this.state;
     return (
-      <div style={{ height: '90vh' }}>
+      <div style={{ height: '100vh' }}>
         <Map
           ak="dbLUj1nQTvDvKXkov5fhnH5HIE88RUEO"
         >

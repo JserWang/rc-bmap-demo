@@ -1,13 +1,17 @@
+/**
+ *@title：添加定位相关控件
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
   Map,
   ControlAnchor,
   Geolocation,
+  Navigation,
 } from 'rc-bmap';
-import { Button } from 'antd';
 
-class GeolocationExample extends React.Component {
+class Example extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,11 +24,17 @@ class GeolocationExample extends React.Component {
       autoLocation: false,
       locationIcon: null,
       events: {
-        locationSuccess: (event) => {
-          console.log('locationSuccess', event);
+        locationSuccess: (e) => {
+          let address = '';
+          address += e.addressComponent.province;
+          address += e.addressComponent.city;
+          address += e.addressComponent.district;
+          address += e.addressComponent.street;
+          address += e.addressComponent.streetNumber;
+          alert(`当前定位地址为：${address}`);
         },
-        locationError: (event) => {
-          console.log('locationError', event);
+        locationError: (e) => {
+          console.log('locationError', e);
         },
       },
     };
@@ -35,7 +45,7 @@ class GeolocationExample extends React.Component {
       offset, anchor, showAddressBar, locationIcon, autoLocation, events,
     } = this.state;
     return (
-      <div style={{ height: '90vh' }}>
+      <div style={{ height: '100vh' }}>
         <Map
           ak="dbLUj1nQTvDvKXkov5fhnH5HIE88RUEO"
           scrollWheelZoom
@@ -48,6 +58,7 @@ class GeolocationExample extends React.Component {
             autoLocation={autoLocation}
             events={events}
           />
+          <Navigation />
         </Map>
       </div>
     );
@@ -55,6 +66,6 @@ class GeolocationExample extends React.Component {
 }
 
 ReactDOM.render(
-  <GeolocationExample />,
+  <Example />,
   document.getElementById('root'),
 );

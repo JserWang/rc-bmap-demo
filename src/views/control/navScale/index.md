@@ -1,3 +1,7 @@
+/**
+ *@title：添加工具条、比例尺控件
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {

@@ -1,3 +1,7 @@
+/**
+ *@title：地图展示
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
@@ -13,7 +17,7 @@ class Example extends React.Component {
         lng: 116.332782,
         lat: 40.007978,
       },
-      zoom: 14,
+      zoom: 14, 
     };
   }
 

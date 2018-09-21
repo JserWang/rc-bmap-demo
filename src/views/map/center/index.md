@@ -1,3 +1,7 @@
+/**
+ *@title：根据城市名设置地图中心点
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {

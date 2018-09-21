@@ -1,7 +1,10 @@
+/**
+ *@title：
+ */
+
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Map, Marker, Animation } from 'rc-bmap';
-import { Button } from 'antd';
 
 class MarkerExample extends Component {
   constructor(props) {
@@ -58,7 +61,7 @@ class MarkerExample extends Component {
       raiseOnDrag, draggingCursor, shadow, contextMenu, rotation, massClear,
     } = this.state;
     return (
-      <div style={{ height: '90vh' }}>
+      <div style={{ height: '100vh' }}>
         <Map
           ak="dbLUj1nQTvDvKXkov5fhnH5HIE88RUEO"
           scrollWheelZoom

@@ -1,3 +1,7 @@
+/**
+ *@title：添加/删除地图类型、缩略图控件
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {

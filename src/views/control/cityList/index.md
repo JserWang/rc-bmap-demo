@@ -1,3 +1,7 @@
+/**
+ *@title：添加城市列表控件
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
@@ -5,7 +9,6 @@ import {
   ControlAnchor,
   CityList,
 } from 'rc-bmap';
-import { Button } from 'antd';
 
 class Example extends React.Component {
   constructor(props) {
@@ -30,7 +33,7 @@ class Example extends React.Component {
   render() {
     const { offset, anchor } = this.state;
     return (
-      <div style={{ height: '90vh' }}>
+      <div style={{ height: '100vh' }}>
         <Map
           ak="dbLUj1nQTvDvKXkov5fhnH5HIE88RUEO"
           scrollWheelZoom

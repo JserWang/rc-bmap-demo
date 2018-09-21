@@ -1,3 +1,7 @@
+/**
+ *@title：矢量图标
+ */
+
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Map, Symbol, SymbolShapeType } from 'rc-bmap';
@@ -23,13 +27,26 @@ class SymbolExample extends Component {
       strokeColor: 'blue',
       strokeOpacity: 0.8,
       strokeWeight: 1,
+      isShow: true,
     };
+  }
+
+  hideSymbol = () => {
+    this.setState({
+      isShow: false,
+    });
+  }
+
+  showSymbol = () => {
+    this.setState({
+      isShow: true,
+    });
   }
 
   render() {
     const {
       point, path, anchor, fillColor, fillOpacity, scale,
-      rotation, strokeColor, strokeOpacity, strokeWeight,
+      rotation, strokeColor, strokeOpacity, strokeWeight, isShow,
     } = this.state;
     return (
       <div style={{ height: '90vh' }}>
@@ -37,19 +54,23 @@ class SymbolExample extends Component {
           ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
           scrollWheelZoom
         >
-          <Symbol
-            point={point}
-            path={path}
-            anchor={anchor}
-            fillColor={fillColor}
-            fillOpacity={fillOpacity}
-            scale={scale}
-            rotation={rotation}
-            strokeColor={strokeColor}
-            strokeOpacity={strokeOpacity}
-            strokeWeight={strokeWeight}
-          />
+          {isShow
+          && (
+            <Symbol
+              point={point}
+              path={path}
+              anchor={anchor}
+              fillColor={fillColor}
+              fillOpacity={fillOpacity}
+              scale={scale}
+              rotation={rotation}
+              strokeColor={strokeColor}
+              strokeOpacity={strokeOpacity}
+              strokeWeight={strokeWeight}
+            />)}
         </Map>
+        <Button onClick={this.hideSymbol}>隐藏</Button>
+        <Button onClick={this.showSymbol}>显示</Button>
       </div>
     );
   }
