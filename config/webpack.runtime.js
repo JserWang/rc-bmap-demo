@@ -55,7 +55,7 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader?cacheDirectory',
         options: {
-          presets: ['babel-preset-env', 'babel-preset-react'].map(require.resolve),
+          presets: ['babel-preset-env', 'babel-preset-react', 'babel-preset-stage-0'].map(require.resolve),
           plugins: [
             [require.resolve('babel-plugin-transform-runtime'), {
               helpers: false,

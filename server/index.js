@@ -6,6 +6,7 @@ const kStatic = require('koa-static');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const config = require('../config/webpack.runtime');
+const { SERVER_PORT, WEB_PORT } = require('../const');
 const {
   appendHtml, generateErrorTemplate, compileFile, createAndSaveFile,
 } = require('./util');
@@ -53,7 +54,7 @@ const run = async (ctx) => {
 
 if (env === 'development') {
   app.use(async (ctx, next) => {
-    ctx.set('Access-Control-Allow-Origin', 'http://localhost:9000');
+    ctx.set('Access-Control-Allow-Origin', `http://localhost:${WEB_PORT}`);
     await next();
   });
 
@@ -62,4 +63,6 @@ if (env === 'development') {
 
 app.use(route.get('/api/run', run));
 
-app.listen(3000);
+app.listen(SERVER_PORT);
+
+console.log(`Service started successfully at port: ${SERVER_PORT}`);

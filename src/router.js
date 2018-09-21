@@ -24,6 +24,8 @@ import Copyright from 'views/control/copyright/index.md';
 import CityList from 'views/control/cityList/index.md';
 import MapTypeCtrl from 'views/control/mapTypeCtrl/index.md';
 import Overlay from 'views/overlay/overlay/index.md';
+import Polyline from 'views/overlay/polyline/index.md';
+
 import NewMarker from 'views/overlay/newMarker/index.md';
 import DraggingMarker from 'views/overlay/draggingMarker/index.md';
 import Editing from 'views/overlay/editing/index.md';
@@ -78,6 +80,8 @@ const route = () => (
     <Route path="/customCtrl" component={getExample(CustomCtrl)} />
     <Route path="/cityList" component={getExample(CityList)} />
     <Route path="/overlay" component={getExample(Overlay)} />
+    <Route path="/polyline" component={getExample(Polyline)} />
+
     <Route path="/newMarker" component={getExample(NewMarker)} />
     <Route path="/draggingMarker" component={getExample(DraggingMarker)} />
     <Route path="/editing" component={getExample(Editing)} />
@@ -109,6 +113,10 @@ const route = () => (
 
     <Route path="/autoComplete" component={getExample(AutoComplete)} />
 
+    <Route path="/navigation_scale" component={getExample(NavScale)} />
+    <Route path="/geolocation" component={getExample(Geolocation)} />
+    <Route path="/markerClusterer" component={getExample(MarkerClusterer)} />
+    <Route path="/curveLine" component={getExample(CurveLine)} />
   </Switch>
 );
 

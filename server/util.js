@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { SERVER_PORT } = require('../const');
 
 function appendHtml(scripts) {
   let template = `<!DOCTYPE html>
@@ -11,7 +12,7 @@ function appendHtml(scripts) {
           <div id="root"></div>
       `;
   scripts.forEach((fileName) => {
-    template += `<script src="//localhost:3000/${fileName}" crossorigin="anonymous"></script>`;
+    template += `<script src="//localhost:${SERVER_PORT}/${fileName}" crossorigin="anonymous"></script>`;
   });
   template += `
         </body>
