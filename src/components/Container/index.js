@@ -4,7 +4,7 @@ import {
 } from 'antd';
 import throttle from 'lodash.throttle';
 import axios from 'axios';
-import CodeMirror from '@uiw/react-codemirror';
+import CodeMirror from 'components/CodeMirror';
 import styles from './index.css';
 // for codeMirror
 import 'codemirror/addon/display/autorefresh';

@@ -37,17 +37,17 @@ module.exports = merge(common, {
           minSize: 0,
           priority: 100,
           chunks: 'initial',
-          // enforce: true?
         },
         antd: {
-          test: /[\\/]node_modules[\\/]antd[\\/]/,
+          test: /[\\/]node_modules[\\/][\\@]{0,1}ant/,
           name: 'chunk-antd',
-          priority: 110,
-        },
-        map: {
-          test: /[\\/]node_modules[\\/]rc-bmap[\\/]/,
-          name: 'chunk-map',
           priority: 115,
+          enforce: true,
+        },
+        code: {
+          test: /[\\/]node_modules[\\/]codemirror[\\/]/,
+          name: 'chunk-code',
+          priority: 110,
         },
       },
     },
