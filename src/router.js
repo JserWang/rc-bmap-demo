@@ -13,19 +13,20 @@ const routes = keys.map(key => markdownFiles(key));
 
 const getExample = code => () => (<Container code={code} />);
 const getPath = path => path.substring(1, path.length - 3);
-
 export default () => (
   <Switch>
     <React.Fragment>
-      {routes.map((route, i) => (
-        <Route
-          key={route}
-          exact
-          path={getPath(keys[i])}
-          component={getExample(route)}
-        />
-      ))}
-      <Redirect from="/" to="/map/map" />
+      {
+        routes.map((route, i) => (
+          <Route
+            key={getPath(keys[i])}
+            exact
+            path={getPath(keys[i])}
+            component={getExample(route)}
+          />
+        ))
+      }
+      <Redirect from="/" exact to="/map/show" />
     </React.Fragment>
   </Switch>
 );

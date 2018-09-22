@@ -5,7 +5,7 @@ export default [
     children: [
       {
         text: '地图展示',
-        path: '/map',
+        path: '/show',
       },
       {
         text: '同时加载两个地图',
