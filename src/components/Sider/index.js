@@ -97,7 +97,7 @@ class Sider extends Component {
                 {
                   item.children.map((child, idx) => (
                     <Menu.Item key={`${index}_${idx}`}>
-                      <Link to={child.path}>
+                      <Link to={`${item.path}${child.path}`}>
                         {child.text}
                       </Link>
                     </Menu.Item>
