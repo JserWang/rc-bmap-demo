@@ -56,148 +56,214 @@ export default [
         path: '/navigation_scale',
       },
       {
-        text: '定位控件',
+        text: '添加/删除地图类型、缩略图控件',
+        path: '/mapTypeCtrl',
+      },
+      {
+        text: '添加定位相关控件',
         path: '/geolocation',
       },
       {
-        text: '缩略地图控件',
-        path: '/overviewMap',
-      },
-      {
-        text: '比例尺控件',
-        path: '/scale',
-      },
-      {
-        text: '切换全景地图控件',
-        path: '/panorama',
-      },
-      {
-        text: '版权控件',
+        text: '添加第三方版权控件',
         path: '/copyright',
       },
       {
-        text: '城市列表控件',
-        path: '/cityList',
+        text: '添加自定义控件',
+        path: '/customCtrl',
       },
       {
-        text: '切换地图类型控件',
-        path: '/mapTypeCtrl',
+        text: '添加城市列表控件',
+        path: '/cityList',
       },
     ],
   },
   {
-    text: '覆盖物',
+    text: '覆盖物示例',
     children: [
       {
-        text: '圆',
-        path: '/circle',
+        text: '添加/删除覆盖物',
+        path: '/overlay',
       },
       {
-        text: '信息窗口',
-        path: '/infoWindow',
-      },
-      {
-        text: '文本标注',
-        path: '/label',
-      },
-      {
-        text: '标注',
-        path: '/marker',
-      },
-      {
-        text: '多边形',
-        path: '/polygon',
-      },
-      {
-        text: '折线',
+        text: '折线上添加箭头',
         path: '/polyline',
       },
       {
-        text: '矢量图标注',
-        path: '/symbol',
+        text: '设置点的弹跳动画',
+        path: '/marker',
       },
       {
-        text: '行政区域',
-        path: '/boundary',
+        text: '设置点的新图标',
+        path: '/newMarker',
       },
       {
-        text: '海量标注',
+        text: '设置点的是否可拖拽',
+        path: '/draggingMarker',
+      },
+      {
+        text: '设置线、面可编辑',
+        path: '/editing',
+      },
+      {
+        text: '设置覆盖物的显示/隐藏',
+        path: '/displayStatus',
+      },
+      {
+        text: '添加文字标签',
+        path: '/addLabel',
+      },
+      {
+        text: '设置覆盖物的文字标签',
+        path: '/setLabel',
+      },
+      {
+        text: '获取覆盖物信息',
+        path: '/getAttr',
+      },
+      {
+        text: '添加多个点示例',
+        path: '/addPoints',
+      },
+      {
+        text: '从多个点里删除特定点',
+        path: '/removePoint',
+      },
+      {
+        text: '加载闪烁点',
+        path: '/showStars',
+      },
+      {
+        text: '加载海量点',
         path: '/pointCollection',
       },
       {
-        text: '地面叠加层',
+        text: '添加弧线',
+        path: '/curveLine',
+      },
+      {
+        text: '添加椭圆',
+        path: '/oval',
+      },
+      {
+        text: '添加行政区域',
+        path: '/boundary',
+      },
+      {
+        text: '添加自定义覆盖物',
+        path: '/customOverlay',
+      },
+      {
+        text: '添加/删除地面叠加层',
         path: '/ground',
       },
-    ],
-  },
-  {
-    text: '规划',
-    children: [
-      {
-        text: '公交线路规划',
-        path: '/transitRoute',
-      },
-      {
-        text: '驾车路线规划',
-        path: '/drivingRoute',
-      },
-      {
-        text: '骑行路线规划',
-        path: '/ridingRoute',
-      },
-      {
-        text: '步行路线规划',
-        path: '/walkingRoute',
-      },
-      {
-        text: '周边检索',
-        path: '/localSearch',
-      },
-      {
-        text: '公交路线搜索',
-        path: '/busLineSearch',
-      },
-    ],
-  },
-  {
-    text: '扩展库',
-    children: [
       {
         text: '点聚合',
         path: '/markerClusterer',
       },
       {
-        text: '抛物线',
-        path: '/curveLine',
-      },
-      {
-        text: '绘制工具',
-        path: '/drawingManager',
-      },
-      {
-        text: '热力图',
+        text: '添加热力图',
         path: '/heatmap',
       },
       {
-        text: '路况控件',
-        path: '/trafficControl',
-      },
-      {
-        text: '测距工具',
-        path: '/distanceTool',
+        text: '矢量图标',
+        path: '/symbol',
       },
     ],
   },
   {
-    text: '其他',
+    text: '信息窗口示例',
     children: [
       {
-        text: '自动完成类',
-        path: '/autoComplete',
+        text: '添加纯文字的信息窗口',
+        path: '/text',
       },
       {
-        text: '自定义图层',
-        path: '/tile',
+        text: '添加图文结合的信息窗口',
+        path: '/picture',
+      },
+      {
+        text: '添加带检索功能的信息窗口',
+        path: '/search',
+      },
+      {
+        text: '给多个点添加信息窗口',
+        path: '/multiple',
+      },
+      {
+        text: '获取信息窗口的内容',
+        path: '/getContent',
+      },
+    ],
+  },
+  {
+    text: '右键菜单示例',
+    children: [
+      {
+        text: '给地图添加右键菜单',
+        path: '/mapMenu',
+      },
+      {
+        text: '给覆盖物添加右键菜单',
+        path: '/overlayMenu',
+      },
+    ],
+  },
+  {
+    text: '叠加层示例',
+    children: [
+      {
+        text: '叠加/删除路况图层',
+        path: '/trafficControl',
+      },
+      {
+        text: '叠加/删除清华微观图',
+        path: '/tileLayer1',
+      },
+      {
+        text: '叠加/删除魔兽地图',
+        path: '/tileLayer2',
+      },
+      {
+        text: '叠加/删除自定义网格',
+        path: '/tileLayer3',
+      },
+    ],
+  },
+  {
+    text: '事件示例',
+    children: [
+      {
+        text: '图块加载完成事件',
+        path: '/tilesloaded',
+      },
+      {
+        text: '地图单击事件',
+        path: '/click',
+      },
+      {
+        text: '给覆盖物注册事件',
+        path: '/addEvent',
+      },
+      {
+        text: '传递事件参数',
+        path: '/param',
+      },
+      {
+        text: '为多个点注册单击事件',
+        path: '/addEvents',
+      },
+      {
+        text: '注销事件',
+        path: '/removeEvent',
+      },
+    ],
+  },
+  {
+    text: '输入提示示例',
+    children: [
+      {
+        text: '关键字提示输入',
+        path: '/autoComplete',
       },
     ],
   },
