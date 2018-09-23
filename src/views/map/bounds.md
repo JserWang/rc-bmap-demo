@@ -1,13 +1,6 @@
-/**
- *@title：获取地图显示范围
- */
-
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-  Map,
-  Navigation,
-} from 'rc-bmap';
+import { Map } from 'rc-bmap';
 
 class Example extends React.Component {
   constructor(props) {
@@ -15,12 +8,12 @@ class Example extends React.Component {
     this.state = {
       center: {
         lng: 116.404,
-        lat: 40.007978,
+        lat: 39.915,
       },
     };
   }
 
-  handleMapMounted = (mapInstance) => {
+  mapMounted = (mapInstance) => {
     const bs = mapInstance.getBounds(); // 获取可视区域
     const bssw = bs.getSouthWest(); // 可视区域左下角
     const bsne = bs.getNorthEast(); // 可视区域右上角
@@ -28,17 +21,15 @@ class Example extends React.Component {
   }
 
   render() {
-    const {
-      center,
-    } = this.state;
+    const { center } = this.state;
     return (
       <div style={{ height: '100vh' }}>
         <Map
-          ak="dbLUj1nQTvDvKXkov5fhnH5HIE88RUEO"
+          ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
           center={center}
-          mapMounted={this.handleMapMounted}
-        >
-        </Map>
+          zoom={14}
+          mapMounted={this.mapMounted}
+        />
       </div>
     );
   }

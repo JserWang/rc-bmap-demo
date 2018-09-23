@@ -1,36 +1,39 @@
-/**
- *@title：缩放地图
- */
-
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-  Map,
-  Navigation,
-} from 'rc-bmap';
+import { Map } from 'rc-bmap';
 
 class Example extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       center: {
-        lng: 116.332782,
-        lat: 40.007978,
+        lng: 116.404,
+        lat: 39.915,
       },
-      scrollWheelZoom: true,
+      zoom: 8, 
     };
+  }
+
+  componentDidMount() {
+    // 两秒后放大到14级
+    setTimeout(() => {
+      this.setState({
+        zoom: 14,
+      })
+    }, 2000);
   }
 
   render() {
     const {
-      center, scrollWheelZoom,
+      center, zoom,
     } = this.state;
     return (
       <div style={{ height: '100vh' }}>
         <Map
-          ak="dbLUj1nQTvDvKXkov5fhnH5HIE88RUEO"
+          ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
           center={center}
-          scrollWheelZoom={scrollWheelZoom}
+          zoom={zoom}
+          scrollWheelZoom
         >
         </Map>
       </div>

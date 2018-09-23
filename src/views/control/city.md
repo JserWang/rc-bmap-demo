@@ -1,7 +1,3 @@
-/**
- *@title：添加城市列表控件
- */
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
@@ -14,11 +10,14 @@ class Example extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      offset: {
-        width: 0,
-        height: 0,
+      center: {
+        lng: 116.404,
+        lat: 39.915,
       },
-      anchor: ControlAnchor.TOP_RIGHT,
+      offset: {
+        width: 10,
+        height: 20,
+      },
     };
   }
 
@@ -31,16 +30,18 @@ class Example extends React.Component {
   }
 
   render() {
-    const { offset, anchor } = this.state;
+    const { center, offset } = this.state;
     return (
       <div style={{ height: '100vh' }}>
         <Map
-          ak="dbLUj1nQTvDvKXkov5fhnH5HIE88RUEO"
+          ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
+          center={center}
+          zoom={14}
           scrollWheelZoom
         >
           <CityList
             offset={offset}
-            anchor={anchor}
+            anchor={ControlAnchor.TOP_LEFT}
             onChangeBefore={this.onChangeBefore}
             onChangeAfter={this.onChangeAfter}
           />

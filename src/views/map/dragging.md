@@ -1,39 +1,40 @@
-/**
- *@title：拖拽地图
- */
-
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-  Map,
-  Navigation,
-} from 'rc-bmap';
+import { Map } from 'rc-bmap';
 
 class Example extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       center: {
-        lng: 116.332782,
-        lat: 40.007978,
+        lng: 116.404,
+        lat: 39.915,
       },
-      dragging: true,
+      dragging: false,
     };
+  }
+
+  componentDidMount() {
+    // 两秒后开启拖拽
+    setTimeout(() => {
+      this.setState({
+        dragging: true,
+      });
+    }, 2000);
   }
 
   render() {
     const {
-      center, dragging
+      center, dragging,
     } = this.state;
     return (
       <div style={{ height: '100vh' }}>
         <Map
-          ak="dbLUj1nQTvDvKXkov5fhnH5HIE88RUEO"
+          ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
           center={center}
+          zoom={8}
           dragging={dragging}
-        >
-          <Navigation />
-        </Map>
+        />
       </div>
     );
   }

@@ -26,7 +26,7 @@ export default () => (
           />
         ))
       }
-      <Redirect from="/" exact to="/map/show" />
+      {/* <Redirect from="/" exact to="/map/show" /> */}
     </React.Fragment>
   </Switch>
 );

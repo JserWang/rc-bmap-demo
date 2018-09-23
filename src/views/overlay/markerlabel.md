@@ -1,33 +1,35 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Map, Boundary } from 'rc-bmap';
+import { Map, Marker, Label } from 'rc-bmap';
 
 class Example extends Component {
   constructor(props) {
     super(props);
     this.state = {
       center: {
-        lng: 116.403765,
-        lat: 39.914850,
+        lng: 116.400244,
+        lat: 39.92556,
+      },
+      label: {
+        offset: { width: 20, height: -10 },
+        content: '我是文字标注哦',
       },
     };
   }
 
   render() {
-    const { center } = this.state;
+    const { center, label } = this.state;
     return (
       <div style={{ height: '100vh' }}>
         <Map
-          ak="dbLUj1nQTvDvKXkov5fhnH5HIE88RUEO"
+          ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
           center={center}
-          zoom={5}
+          zoom={12}
           scrollWheelZoom
         >
-          <Boundary
-            name="北京市海淀区"
-            autoViewport
-            strokeColor="#ff0000"
-            strokeWeight={2}
+          <Marker
+            point={center}
+            label={<Label {...label} />}
           />
         </Map>
       </div>

@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import {
-  Map, Polygon, Polyline,
+  Map,
+  Circle,
+  Marker,
+  Polygon,
+  Polyline,
 } from 'rc-bmap';
 import { Button } from 'antd';
 
@@ -48,25 +52,25 @@ class Example extends Component {
           lat: 39.927893,
         },
       ],
-      editing: false,
+      isShow: false,
     };
   }
 
-  handleEnable = () => {
+  handleAdd = () => {
     this.setState({
-      editing: true,
+      isShow: true,
     });
   }
 
-  handleDisable = () => {
+  handleRemove = () => {
     this.setState({
-      editing: false,
+      isShow: false,
     });
   }
 
   render() {
     const {
-      center, polylinePoints, polygonPoints, editing,
+      center, polylinePoints, polygonPoints, isShow,
     } = this.state;
     return (
       <div style={{ height: '90vh' }}>
@@ -76,24 +80,35 @@ class Example extends Component {
           zoom={15}
           scrollWheelZoom
         >
-
-          <Polyline
-            points={polylinePoints}
-            strokeColor="blue"
-            strokeWeight={2}
-            strokeOpacity={0.5}
-            editing={editing}
-          />
-          <Polygon
-            points={polygonPoints}
-            strokeColor="blue"
-            strokeWeight={2}
-            strokeOpacity={0.5}
-            editing={editing}
-          />
+          {
+            isShow && (
+              <React.Fragment>
+                <Circle
+                  point={center}
+                  strokeColor="blue"
+                  radius={500}
+                  strokeWeight={2}
+                  strokeOpacity={0.5}
+                />
+                <Polyline
+                  points={polylinePoints}
+                  strokeColor="blue"
+                  strokeWeight={2}
+                  strokeOpacity={0.5}
+                />
+                <Polygon
+                  points={polygonPoints}
+                  strokeColor="blue"
+                  strokeWeight={2}
+                  strokeOpacity={0.5}
+                />
+                <Marker point={center} />
+              </React.Fragment>
+            )
+          }
         </Map>
-        <Button onClick={this.handleEnable}>开启线、面编辑功能</Button>
-        <Button onClick={this.handleDisable}>关闭线、面编辑功能</Button>
+        <Button onClick={this.handleAdd}>添加覆盖物</Button>
+        <Button onClick={this.handleRemove}>删除覆盖物</Button>
       </div>
     );
   }

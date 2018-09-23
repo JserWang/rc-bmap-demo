@@ -9,7 +9,7 @@ export default [
       },
       {
         text: '同时加载两个地图',
-        path: '/twoMap',
+        path: '/double',
       },
       {
         text: '根据城市名设置地图中心点',
@@ -17,35 +17,36 @@ export default [
       },
       {
         text: '设置地图最大、最小级别',
-        path: '/mostZoom',
+        path: '/range',
       },
       {
         text: '移动地图',
-        path: '/move',
+        path: '/moving',
       },
       {
         text: '缩放地图',
-        path: '/setZoom',
+        path: '/zoom',
       },
       {
         text: '拖拽地图',
         path: '/dragging',
       },
-      {
-        text: '设置地图显示范围',
-        path: '/setBounds',
-      },
+      // TODO: rc-bmap 需支持
+      // {
+      //   text: '设置地图显示范围',
+      //   path: '/setBounds',
+      // },
       {
         text: '获取地图显示范围',
-        path: '/getBounds',
+        path: '/bounds',
       },
       {
         text: '获取两点间距离',
-        path: '/getDistance',
+        path: '/distance',
       },
       {
         text: '关闭默认地图POI事件',
-        path: '/closePOI',
+        path: '/click',
       },
     ],
   },
@@ -55,11 +56,11 @@ export default [
     children: [
       {
         text: '添加工具条、比例尺控件',
-        path: '/navigation_scale',
+        path: '/navscale',
       },
       {
         text: '添加/删除地图类型、缩略图控件',
-        path: '/mapTypeCtrl',
+        path: '/maptype',
       },
       {
         text: '添加定位相关控件',
@@ -71,11 +72,11 @@ export default [
       },
       {
         text: '添加自定义控件',
-        path: '/customCtrl',
+        path: '/custom',
       },
       {
         text: '添加城市列表控件',
-        path: '/cityList',
+        path: '/city',
       },
     ],
   },
@@ -85,7 +86,7 @@ export default [
     children: [
       {
         text: '添加/删除覆盖物',
-        path: '/overlay',
+        path: '/normal',
       },
       {
         text: '折线上添加箭头',
@@ -97,11 +98,11 @@ export default [
       },
       {
         text: '设置点的新图标',
-        path: '/newMarker',
+        path: '/icon',
       },
       {
         text: '设置点的是否可拖拽',
-        path: '/draggingMarker',
+        path: '/dragging',
       },
       {
         text: '设置线、面可编辑',
@@ -109,39 +110,39 @@ export default [
       },
       {
         text: '设置覆盖物的显示/隐藏',
-        path: '/displayStatus',
+        path: '/display',
       },
       {
         text: '添加文字标签',
-        path: '/addLabel',
+        path: '/label',
       },
       {
         text: '设置覆盖物的文字标签',
-        path: '/setLabel',
+        path: '/markerlabel',
       },
       {
         text: '获取覆盖物信息',
-        path: '/getAttr',
+        path: '/instance',
       },
       {
         text: '添加多个点示例',
-        path: '/addPoints',
+        path: '/multiple',
       },
       {
         text: '从多个点里删除特定点',
-        path: '/removePoint',
+        path: '/remove',
       },
-      {
-        text: '加载闪烁点',
-        path: '/showStars',
-      },
+      // {
+      //   text: '加载闪烁点',
+      //   path: '/showStars',
+      // },
       {
         text: '加载海量点',
-        path: '/pointCollection',
+        path: '/massive',
       },
       {
         text: '添加弧线',
-        path: '/curveLine',
+        path: '/curve_line',
       },
       {
         text: '添加椭圆',

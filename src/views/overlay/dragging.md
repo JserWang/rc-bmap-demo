@@ -1,49 +1,47 @@
-/**
- *@title：设置点的是否可拖拽
- */
-
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Map, Marker } from 'rc-bmap';
 import { Button } from 'antd';
 
-class MarkerExample extends Component {
+class Example extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      markerPoint: { lng: 116.404, lat: 39.915 },
+      center: { 
+        lng: 116.404,
+        lat: 39.915,
+      },
       dragging: false,
     };
   }
 
-  dragging = () => {
+  handleDragging = () => {
     this.setState({
       dragging: true,
     });
   }
 
-  noDragging = () => {
+  handleCancelDragging = () => {
     this.setState({
       dragging: false,
     });
   }
 
   render() {
-    const {
-      markerPoint, dragging,
-    } = this.state;
+    const { center, dragging } = this.state;
     return (
       <div style={{ height: '90vh' }}>
         <Map
-          ak="dbLUj1nQTvDvKXkov5fhnH5HIE88RUEO"
+          ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
+          center={center}
           scrollWheelZoom
         >
           <Marker
-            point={markerPoint}
+            point={center}
             dragging={dragging}
           />
-          <Button onClick={this.dragging}>可拖拽</Button>
-          <Button onClick={this.noDragging}>不可拖拽</Button>
+          <Button onClick={this.handleDragging}>可拖拽</Button>
+          <Button onClick={this.handleCancelDragging}>不可拖拽</Button>
         </Map>
       </div>
     );
@@ -51,6 +49,6 @@ class MarkerExample extends Component {
 }
 
 ReactDOM.render(
-  <MarkerExample />,
+  <Example />,
   document.getElementById('root'),
 );

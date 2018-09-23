@@ -2,9 +2,33 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {
   Map,
-  ControlAnchor,
-  Copyright,
+  Control,
+  ReactComponent,
 } from 'rc-bmap';
+
+@ReactComponent
+class CustomControl extends Control {
+  handleClick() {
+    const map = window.bMapInstance;
+    const newZoom = map.getZoom() + 2;
+    map.setZoom(newZoom);
+  }
+
+  render() {
+    return (
+      <div
+        style={{
+          backgroundColor: '#fff',
+          cursor: 'pointer',
+          border: '1px solid #333',
+        }}
+        onClick={this.handleClick}
+      >
+        放大2级
+      </div>
+    );
+  }
+}
 
 class Example extends React.Component {
   constructor(props) {
@@ -14,12 +38,11 @@ class Example extends React.Component {
         lng: 116.404,
         lat: 39.915,
       },
-      content: "<a href='#' style='font-size:20px;background:yellow'>我是自定义版权控件呀</a>",
     };
   }
 
   render() {
-    const { center, content } = this.state;
+    const { center } = this.state;
     return (
       <div style={{ height: '100vh' }}>
         <Map
@@ -28,10 +51,7 @@ class Example extends React.Component {
           zoom={11}
           scrollWheelZoom
         >
-          <Copyright
-            anchor={ControlAnchor.TOP_RIGHT}
-            content={content}
-          />
+          <CustomControl />
         </Map>
       </div>
     );

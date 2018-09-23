@@ -1,64 +1,54 @@
-/**
- *@title：添加定位相关控件
- */
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
   Map,
-  ControlAnchor,
   Geolocation,
-  Navigation,
 } from 'rc-bmap';
 
 class Example extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      offset: {
-        width: 0,
-        height: 0,
+      center: {
+        lng: 116.404,
+        lat: 39.915,
       },
-      anchor: ControlAnchor.TOP_RIGHT,
-      showAddressBar: true,
-      autoLocation: false,
-      locationIcon: null,
       events: {
-        locationSuccess: (e) => {
-          let address = '';
-          address += e.addressComponent.province;
-          address += e.addressComponent.city;
-          address += e.addressComponent.district;
-          address += e.addressComponent.street;
-          address += e.addressComponent.streetNumber;
-          alert(`当前定位地址为：${address}`);
-        },
-        locationError: (e) => {
-          console.log('locationError', e);
-        },
+        locationSuccess: this.handleLocationSuccess,
+        locationError: this.handleLocationError,
       },
     };
   }
 
+  handleLocationSuccess = (e) => {
+    // 定位成功事件
+    let address = '';
+    address += e.addressComponent.province;
+    address += e.addressComponent.city;
+    address += e.addressComponent.district;
+    address += e.addressComponent.street;
+    address += e.addressComponent.streetNumber;
+    alert(`当前定位地址为：${address}`);
+  }
+
+  handleLocationError = (e) => {
+    // 定位失败事件
+    alert(e.message);
+  }
+
   render() {
     const {
-      offset, anchor, showAddressBar, locationIcon, autoLocation, events,
+      center, events,
     } = this.state;
     return (
       <div style={{ height: '100vh' }}>
         <Map
-          ak="dbLUj1nQTvDvKXkov5fhnH5HIE88RUEO"
+          ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
+          center={center}
+          zoom={11}
           scrollWheelZoom
         >
-          <Geolocation
-            offset={offset}
-            anchor={anchor}
-            showAddressBar={showAddressBar}
-            locationIcon={locationIcon}
-            autoLocation={autoLocation}
-            events={events}
-          />
-          <Navigation />
+          <Geolocation events={events} />
         </Map>
       </div>
     );

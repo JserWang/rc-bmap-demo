@@ -2,35 +2,43 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {
   Map,
-  ControlAnchor,
-  Copyright,
+  CurveLine,
 } from 'rc-bmap';
 
 class Example extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      points: [
+        { lng: 116.432045, lat: 39.910683 },
+        { lng: 120.129721, lat: 30.314429 },
+        { lng: 121.491121, lat: 25.127053 },
+      ],
       center: {
-        lng: 116.404,
-        lat: 39.915,
+        lng: 118.454,
+        lat: 30.314429,
       },
-      content: "<a href='#' style='font-size:20px;background:yellow'>我是自定义版权控件呀</a>",
     };
   }
 
   render() {
-    const { center, content } = this.state;
+    const {
+      center, points,
+    } = this.state;
     return (
       <div style={{ height: '100vh' }}>
         <Map
           ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
-          center={center}
-          zoom={11}
           scrollWheelZoom
+          zoom={6}
+          center={center}
         >
-          <Copyright
-            anchor={ControlAnchor.TOP_RIGHT}
-            content={content}
+          <CurveLine
+            points={points}
+            strokeColor="blue"
+            strokeWeight={3}
+            strokeOpacity={0.5}
+            editing
           />
         </Map>
       </div>

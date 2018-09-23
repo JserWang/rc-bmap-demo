@@ -1,7 +1,3 @@
-/**
- *@title：加载海量点
- */
-
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import {
@@ -12,9 +8,6 @@ class PointCollectionExample extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      color: '#d340c3',
-      shape: ShapeType.STAR,
-      size: SizeType.BIGGER,
       points: [
         { lng: 116.418261, lat: 39.921984 },
         { lng: 116.423332, lat: 39.916532 },
@@ -38,16 +31,11 @@ class PointCollectionExample extends Component {
         { lng: 116.427268, lat: 39.92267 },
         { lng: 116.417721, lat: 39.920034 },
       ],
-      events: {
-        click: this.onClick,
-      },
     };
   }
 
   render() {
-    const {
-      points, size, shape, color, events, zoom,
-    } = this.state;
+    const { points } = this.state;
     return (
       <div style={{ height: '100vh' }}>
         <Map
@@ -56,10 +44,9 @@ class PointCollectionExample extends Component {
         >
           <PointCollection
             points={points}
-            shape={shape}
-            size={size}
-            color={color}
-            events={events}
+            shape={ShapeType.STAR}
+            size={SizeType.BIGGER}
+            color="#d340c3"
           />
         </Map>
       </div>

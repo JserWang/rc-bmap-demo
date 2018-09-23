@@ -1,11 +1,12 @@
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
   Map,
   ControlAnchor,
-  Navigation,
-  NavigationType,
-  Scale,
+  MapTypeCtrl,
+  MapType,
+  OverviewMap,
 } from 'rc-bmap';
 import { Button } from 'antd';
 
@@ -48,19 +49,33 @@ class Example extends React.Component {
           {
             isShow && (
               <React.Fragment>
-                <Scale anchor={ControlAnchor.TOP_LEFT} />
-                <Navigation />
-                <Navigation
-                  anchor={ControlAnchor.TOP_RIGHT}
-                  type={NavigationType.SMALL}
+                <MapTypeCtrl
+                  mapTypes={[
+                    MapType.NORMAL,
+                    MapType.HYBRID,
+                  ]}
+                />
+                <MapTypeCtrl
+                  anchor={ControlAnchor.TOP_LEFT}
+                  mapTypes={[
+                    MapType.NORMAL,
+                    MapType.SATELLITE,
+                    MapType.PERSPECTIVE,
+                  ]}
+                />
+                <OverviewMap
+                  anchor={ControlAnchor.BOTTOM_RIGHT}
+                  isOpen
                 />
               </React.Fragment>
             )
           }
+          <Button onClick={this.handleAdd}>添加</Button>
+          <Button onClick={this.handleRemove}>删除</Button>
+          <div>
+            点击地图类型控件切换普通地图、卫星图、三维图、混合图（卫星图+路网），右下角是缩略图，点击按钮查看效果
+          </div>
         </Map>
-        <Button onClick={this.handleAdd}>添加</Button>
-        <Button onClick={this.handleRemove}>删除</Button>
-        <div>在地图的左上、右上分别展示完整、缩略样式的缩放平移控件；同时在地图的左上方展示比例尺控件，点击按钮查看效果</div>
       </div>
     );
   }
