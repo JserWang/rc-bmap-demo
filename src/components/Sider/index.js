@@ -9,16 +9,20 @@ const {
   Sider: AntdSider,
 } = Layout;
 
-const { SubMenu } = Menu;
+const { SubMenu, Item: MenuItem } = Menu;
 
-const MIN_MENU_WIDTH = 200;// 菜单最小宽度
+const MIN_MENU_WIDTH = 260;// 菜单最小宽度
 const MAX_MENU_WIDTH = 400;// 菜单最大宽度
+const menuNodePaths = menuData.map(item => item.path);
 
 class Sider extends Component {
   constructor() {
     super();
+    const defaultSelectedKey = `${window.location.pathname}` === '/' ? '/map/show' : `${window.location.pathname}`;
     this.state = {
       siderWidth: MIN_MENU_WIDTH,
+      openKeys: [menuNodePaths[0]],
+      defaultSelectedKeys: [`${defaultSelectedKey}`],
     };
 
     this.currentWidth = MIN_MENU_WIDTH;
@@ -70,9 +74,20 @@ class Sider extends Component {
     }
   }
 
-  render() {
-    const { siderWidth } = this.state;
+  onOpenChange = (keys) => {
+    const { openKeys } = this.state;
+    const latestOpenKey = keys.find(key => openKeys.indexOf(key) === -1);
+    if (menuNodePaths.indexOf(latestOpenKey) === -1) {
+      this.setState({ openKeys: keys });
+    } else {
+      this.setState({
+        openKeys: latestOpenKey ? [latestOpenKey] : [],
+      });
+    }
+  }
 
+  render() {
+    const { siderWidth, openKeys, defaultSelectedKeys } = this.state;
     return (
       <AntdSider
         width={siderWidth}
@@ -87,26 +102,36 @@ class Sider extends Component {
         >
           <Icon type={siderWidth === 0 ? 'right' : 'left'} />
         </div>
-        <Menu mode="inline">
-          {
-            menuData.map((item, index) => (
-              <SubMenu
-                title={item.text}
-                key={index}
-              >
-                {
-                  item.children.map((child, idx) => (
-                    <Menu.Item key={`${index}_${idx}`}>
-                      <Link to={child.path}>
-                        {child.text}
-                      </Link>
-                    </Menu.Item>
-                  ))
-                }
-              </SubMenu>
-            ))
-          }
-        </Menu>
+        <div className={styles.side}>
+          <Menu
+            mode="inline"
+            openKeys={openKeys}
+            defaultSelectedKeys={defaultSelectedKeys}
+            onOpenChange={this.onOpenChange}
+          >
+            {
+              menuData.map(item => (
+                <SubMenu
+                  title={item.text}
+                  key={item.path}
+                >
+                  {
+                    item.children.map((child) => {
+                      const key = `${item.path}${child.path}`;
+                      return (
+                        <MenuItem key={key}>
+                          <Link to={key}>
+                            {child.text}
+                          </Link>
+                        </MenuItem>
+                      );
+                    })
+                  }
+                </SubMenu>
+              ))
+            }
+          </Menu>
+        </div>
       </AntdSider>
     );
   }

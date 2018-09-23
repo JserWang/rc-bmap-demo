@@ -1,3 +1,8 @@
+.side {
+  overflow-y: auto;
+  height: 100vh;
+}
+
 .splitLine {
   position: absolute;
   right: 0;

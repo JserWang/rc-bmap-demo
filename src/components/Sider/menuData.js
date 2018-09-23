@@ -287,6 +287,7 @@ export default [
   },
   {
     text: '个性化地图',
+    path: '/mapType',
     children: [
       {
         text: '设置主题模板样式',

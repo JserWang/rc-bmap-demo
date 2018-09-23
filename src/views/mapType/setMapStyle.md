@@ -58,8 +58,19 @@ class Example extends React.Component {
         </Map>
         选择主题
         <Select defaultValue="midnight" onChange={this.selectStyle}>
+          <Select.Option value="normal">默认地图样式</Select.Option>
+          <Select.Option value="light">清新蓝风格</Select.Option>
+          <Select.Option value="dark">黑夜风格</Select.Option>
+          <Select.Option value="realert">红色警戒风格</Select.Option>
+          <Select.Option value="googlelite">精简风格</Select.Option>
+          <Select.Option value="grassgreen">自然绿风格</Select.Option>
           <Select.Option value="midnight">午夜蓝风格</Select.Option>
-          <Select.Option value="male">11</Select.Option>
+          <Select.Option value="pink">浪漫粉风格</Select.Option>
+          <Select.Option value="darkgreen">青春绿风格</Select.Option>
+          <Select.Option value="bluish">清新蓝绿风格</Select.Option>
+          <Select.Option value="grayscale">高端灰风格</Select.Option>
+          <Select.Option value="hardedge">强边界风格</Select.Option>
+
         </Select>
       </div>
     );
