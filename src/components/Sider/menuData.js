@@ -1,10 +1,11 @@
 export default [
   {
     text: '地图示例',
+    path: '/map',
     children: [
       {
         text: '地图展示',
-        path: '/map',
+        path: '/show',
       },
       {
         text: '同时加载两个地图',
@@ -50,6 +51,7 @@ export default [
   },
   {
     text: '地图控件示例',
+    path: '/control',
     children: [
       {
         text: '添加工具条、比例尺控件',
@@ -79,6 +81,7 @@ export default [
   },
   {
     text: '覆盖物示例',
+    path: '/overlay',
     children: [
       {
         text: '添加/删除覆盖物',
@@ -172,6 +175,7 @@ export default [
   },
   {
     text: '信息窗口示例',
+    path: '/infoWindow',
     children: [
       {
         text: '添加纯文字的信息窗口',
@@ -197,6 +201,7 @@ export default [
   },
   {
     text: '右键菜单示例',
+    path: '/menu',
     children: [
       {
         text: '给地图添加右键菜单',
@@ -210,6 +215,7 @@ export default [
   },
   {
     text: '叠加层示例',
+    path: '/layer',
     children: [
       {
         text: '叠加/删除路况图层',
@@ -231,6 +237,7 @@ export default [
   },
   {
     text: '事件示例',
+    path: '/event',
     children: [
       {
         text: '图块加载完成事件',
@@ -260,6 +267,7 @@ export default [
   },
   {
     text: '输入提示示例',
+    path: '/autoComplete',
     children: [
       {
         text: '关键字提示输入',
@@ -267,5 +275,23 @@ export default [
       },
     ],
   },
+  {
+    text: '全景图展示',
+    path: '/panorama',
+    children: [
+      {
+        text: '全景控件展示',
+        path: '/showPanorama',
+      },
+    ],
+  },
+  {
+    text: '个性化地图',
+    children: [
+      {
+        text: '设置主题模板样式',
+        path: '/setMapStyle',
+      },
+    ],
+  },
 ];
-
