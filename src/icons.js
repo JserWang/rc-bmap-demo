@@ -13,3 +13,7 @@ export {
 export {
   default as RightOutline,
 } from '@ant-design/icons/lib/outline/RightOutline';
+
+export {
+  default as SyncOutline,
+} from '@ant-design/icons/lib/outline/SyncOutline';
