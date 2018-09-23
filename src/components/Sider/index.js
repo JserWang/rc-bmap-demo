@@ -14,15 +14,19 @@ const { SubMenu, Item: MenuItem } = Menu;
 const MIN_MENU_WIDTH = 260;// 菜单最小宽度
 const MAX_MENU_WIDTH = 400;// 菜单最大宽度
 const menuNodePaths = menuData.map(item => item.path);
+const mainPath = /^\/\w*/;
 
 class Sider extends Component {
   constructor() {
     super();
-    const defaultSelectedKey = `${window.location.pathname}` === '/' ? '/map/show' : `${window.location.pathname}`;
+    const defaultSelectedKeys = `${window.location.pathname}` === '/' ? ['/map/show'] : [`${window.location.pathname}`];
+    const openKeys = menuNodePaths.filter(
+      item => item === mainPath.exec(defaultSelectedKeys[0])[0],
+    );
     this.state = {
       siderWidth: MIN_MENU_WIDTH,
-      openKeys: [menuNodePaths[0]],
-      defaultSelectedKeys: [`${defaultSelectedKey}`],
+      openKeys,
+      defaultSelectedKeys,
     };
 
     this.currentWidth = MIN_MENU_WIDTH;
