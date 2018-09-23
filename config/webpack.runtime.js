@@ -64,6 +64,7 @@ module.exports = {
               moduleName: 'babel-runtime',
             }],
             require.resolve('babel-plugin-transform-class-properties'),
+            require.resolve('babel-plugin-transform-decorators-legacy'),
             [require.resolve('babel-plugin-import'), { libraryName: 'antd', libraryDirectory: 'es', style: 'css' }],
           ],
         },
