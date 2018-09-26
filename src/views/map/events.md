@@ -2,34 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {
   Map,
-  Control,
-  ReactComponent,
+  Events,
 } from 'rc-bmap';
-
-@ReactComponent
-class CustomControl extends Control {
-  handleClick() {
-    console.log(this.map);
-    const map = window.bMapInstance;
-    const newZoom = map.getZoom() + 2;
-    map.setZoom(newZoom);
-  }
-
-  render() {
-    return (
-      <div
-        style={{
-          backgroundColor: '#fff',
-          cursor: 'pointer',
-          border: '1px solid #333',
-        }}
-        onClick={this.handleClick}
-      >
-        放大2级
-      </div>
-    );
-  }
-}
 
 class Example extends React.Component {
   constructor(props) {
@@ -42,6 +16,14 @@ class Example extends React.Component {
     };
   }
 
+  handleMapClick = () => {
+    console.log('单击地图');
+  }
+
+  handleMapDblClick = () => {
+    console.log('双击地图');
+  }
+
   render() {
     const { center } = this.state;
     return (
@@ -52,7 +34,11 @@ class Example extends React.Component {
           zoom={11}
           scrollWheelZoom
         >
-          <CustomControl />
+          {/* 这里的事件名以及参数，均可参考百度官方文档 */}
+          <Events
+            click={this.handleMapClick}
+            dblclick={this.handleMapDblClick}
+          />
         </Map>
       </div>
     );

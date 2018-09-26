@@ -1,19 +1,16 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Map } from 'rc-bmap';
 
-class Example extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      center: {
-        lng: 116.404,
-        lat: 39.915,
-      },
-    };
+class Example extends Component {
+  state = {
+    center: {
+      lng: 116.404,
+      lat: 39.915,
+    },
   }
 
-  mapMounted = (mapInstance) => {
+  onMapMounted = (mapInstance) => {
     const bs = mapInstance.getBounds(); // 获取可视区域
     const bssw = bs.getSouthWest(); // 可视区域左下角
     const bsne = bs.getNorthEast(); // 可视区域右上角
@@ -28,7 +25,7 @@ class Example extends React.Component {
           ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
           center={center}
           zoom={14}
-          mapMounted={this.mapMounted}
+          mounted={this.onMapMounted}
         />
       </div>
     );

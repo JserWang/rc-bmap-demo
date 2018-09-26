@@ -1,16 +1,13 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Map, Polyline } from 'rc-bmap';
 
 class Example extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      points: [],
-    };
+  state = {
+    points: [],
   }
 
-  mapMounted = (mapInstance) => {
+  onMapMounted = (mapInstance) => {
     // 创建点坐标A--大渡口区
     const pointA = new window.BMap.Point(106.486654, 29.490295);
     // 创建点坐标B--江北区
@@ -35,7 +32,7 @@ class Example extends React.Component {
           ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
           center={'重庆'}
           zoom={12}
-          mapMounted={this.mapMounted}
+          mounted={this.onMapMounted}
         >
           {
             points.length > 0 && (

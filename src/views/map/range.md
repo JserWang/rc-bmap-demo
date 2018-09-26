@@ -1,16 +1,13 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Map } from 'rc-bmap';
 
-class Example extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      center: {
-        lng: 116.404,
-        lat: 39.915,
-      },
-    };
+class Example extends Component {
+  state = {
+    center: {
+      lng: 116.404,
+      lat: 39.915,
+    },    
   }
 
   render() {

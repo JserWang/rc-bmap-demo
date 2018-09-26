@@ -48,6 +48,10 @@ export default [
         text: '关闭默认地图POI事件',
         path: '/click',
       },
+      {
+        text: '绑定地图点击事件',
+        path: '/events',
+      },
     ],
   },
   {
@@ -142,7 +146,7 @@ export default [
       },
       {
         text: '添加弧线',
-        path: '/curve_line',
+        path: '/curveline',
       },
       {
         text: '添加椭圆',
@@ -154,7 +158,7 @@ export default [
       },
       {
         text: '添加自定义覆盖物',
-        path: '/customOverlay',
+        path: '/custom',
       },
       {
         text: '添加/删除地面叠加层',
@@ -206,7 +210,7 @@ export default [
     children: [
       {
         text: '给地图添加右键菜单',
-        path: '/mapMenu',
+        path: '/map',
       },
       {
         text: '给覆盖物添加右键菜单',
