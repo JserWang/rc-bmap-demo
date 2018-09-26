@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { Button } from 'antd';
 import {
   Map,
-  Control,
+  CustomControl as Custom,
   ReactComponent,
+  ControlAnchor,
+  Offset,
 } from 'rc-bmap';
 
-@ReactComponent
-class CustomControl extends Control {
-  handleClick() {
-    console.log(this.map);
-    const map = window.bMapInstance;
+@Custom
+class CustomControl extends Component {
+  handleClick = () => {
+    const { map } = this.props;
     const newZoom = map.getZoom() + 2;
     map.setZoom(newZoom);
   }
@@ -31,7 +33,7 @@ class CustomControl extends Control {
   }
 }
 
-class Example extends React.Component {
+class Example extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,21 +41,41 @@ class Example extends React.Component {
         lng: 116.404,
         lat: 39.915,
       },
+      visible: true,
     };
   }
 
+  handleShow = () => {
+  	this.setState({
+      visible: true,
+    });
+  }
+
+  handleHide = () => {
+  	this.setState({
+    	visible: false,
+    });
+  }
+
   render() {
-    const { center } = this.state;
+    const { center, visible } = this.state;
     return (
-      <div style={{ height: '100vh' }}>
+      <div style={{ height: '90vh' }}>
         <Map
           ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
           center={center}
           zoom={11}
           scrollWheelZoom
         >
-          <CustomControl />
+          <CustomControl
+            visible={visible}
+            anchor={ControlAnchor.TOP_LEFT}
+          >
+            <Offset width="10" height="20" />
+          </CustomControl>
         </Map>
+        <Button onClick={this.handleShow}>显示</Button>
+        <Button onClick={this.handleHide}>隐藏</Button>
       </div>
     );
   }
