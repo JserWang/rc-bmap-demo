@@ -4,6 +4,8 @@ import {
   Map,
   ControlAnchor,
   CityList,
+  Offset,
+  Events,
 } from 'rc-bmap';
 
 class Example extends React.Component {
@@ -13,10 +15,6 @@ class Example extends React.Component {
       center: {
         lng: 116.404,
         lat: 39.915,
-      },
-      offset: {
-        width: 10,
-        height: 20,
       },
     };
   }
@@ -29,6 +27,10 @@ class Example extends React.Component {
     console.log('onChangeAfter');
   }
 
+  onChangeSuccess = () => {
+    console.log('onChangeSuccess');
+  }
+
   render() {
     const { center, offset } = this.state;
     return (
@@ -39,12 +41,14 @@ class Example extends React.Component {
           zoom={14}
           scrollWheelZoom
         >
-          <CityList
-            offset={offset}
-            anchor={ControlAnchor.TOP_LEFT}
-            onChangeBefore={this.onChangeBefore}
-            onChangeAfter={this.onChangeAfter}
-          />
+          <CityList anchor={ControlAnchor.TOP_LEFT}>
+            <Offset width="10" height="20" />
+            <Events 
+              onChangeBefore={this.onChangeBefore} 
+              onChangeAfter={this.onChangeAfter}
+              onChangeSuccess={this.onChangeSuccess}
+            />
+          </CityList>
         </Map>
       </div>
     );

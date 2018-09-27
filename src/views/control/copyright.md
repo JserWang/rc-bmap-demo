@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {
   Map,
   ControlAnchor,
+  CopyrightControl,
   Copyright,
 } from 'rc-bmap';
 
@@ -14,7 +15,6 @@ class Example extends React.Component {
         lng: 116.404,
         lat: 39.915,
       },
-      content: "<a href='#' style='font-size:20px;background:yellow'>我是自定义版权控件呀</a>",
     };
   }
 
@@ -28,10 +28,13 @@ class Example extends React.Component {
           zoom={11}
           scrollWheelZoom
         >
-          <Copyright
+          <CopyrightControl
             anchor={ControlAnchor.TOP_RIGHT}
-            content={content}
-          />
+          >
+            <Copyright>
+              <a href="#">我是自定义版权控件呀</a>
+            </Copyright>
+          </CopyrightControl>
         </Map>
       </div>
     );
