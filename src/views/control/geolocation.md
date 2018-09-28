@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {
   Map,
   Geolocation,
+  Events,
 } from 'rc-bmap';
 
 class Example extends React.Component {
@@ -12,10 +13,6 @@ class Example extends React.Component {
       center: {
         lng: 116.404,
         lat: 39.915,
-      },
-      events: {
-        locationSuccess: this.handleLocationSuccess,
-        locationError: this.handleLocationError,
       },
     };
   }
@@ -48,7 +45,12 @@ class Example extends React.Component {
           zoom={11}
           scrollWheelZoom
         >
-          <Geolocation events={events} />
+          <Geolocation>
+            <Events 
+              locationSuccess={this.handleLocationSuccess}
+              locationError={this.handleLocationError}
+            />
+          </Geolocation>
         </Map>
       </div>
     );
