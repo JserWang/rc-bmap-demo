@@ -1,60 +1,16 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import {
   Map,
   Overlay,
-  ReactComponent,
+  CustomOverlay as Custom,
 } from 'rc-bmap';
 
-@ReactComponent
-class CustomOverlay extends Overlay {
-  handleMouseOver() {
-    const map = window.bMapInstance;
-    const newZoom = map.getZoom() + 2;
-    map.setZoom(newZoom);
-  }
-
-  handleMouseOut() {
-
-  }
-
-  getContainer() {
-    console.log(this);
-  }
-
+@Custom
+class CustomOverlay extends Component {
   render() {
     return (
-      <div
-        ref={this.getContainer}
-        style={{
-          position: 'absolute',
-          backgroundColor: '#EE5D5B',
-          border: '1px solid #BC3B3A',
-          color: 'white',
-          height: 18,
-          padding: 2,
-          lineHeight: 18,
-          whiteSpace: 'nowrap',
-          MozUserSelect: 'none',
-          fontSize: 12,
-        }}
-        onMouseOver={this.handleMouseOver}
-        onMouseOut={this.handleMouseOut}
-      >
-        <span>银湖海岸城</span>
-        <div
-          ref={this.getArrow}
-          style={{
-            background: 'url(http://map.baidu.com/fwmap/upload/r/map/fwmap/static/house/images/label.png) no-repeat',
-            position: 'absolute',
-            width: 11,
-            height: 10,
-            top: 22,
-            left: 10,
-            overflow: 'hidden',
-          }}
-        />
-      </div>
+      <div>这是一个自定义图层</div>
     );
   }
 }
