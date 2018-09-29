@@ -34,6 +34,7 @@ class Example extends Component {
         <Map
           ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
           center={center}
+          zoom={15}
           scrollWheelZoom
         >
           <Marker
