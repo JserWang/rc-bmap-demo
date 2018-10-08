@@ -24,8 +24,8 @@ class Example extends Component {
           scrollWheelZoom
         >
           <Boundary
-            name="北京市海淀区"
             autoViewport
+            name="北京市海淀区"
             strokeColor="#ff0000"
             strokeWeight={2}
           />

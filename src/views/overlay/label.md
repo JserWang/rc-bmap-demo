@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Map, Label } from 'rc-bmap';
 
+const { Content } = Label;
+
 class Example extends Component {
   constructor(props) {
     super(props);
@@ -37,11 +39,14 @@ class Example extends Component {
           scrollWheelZoom
         >
           <Label
-            content="欢迎使用百度地图，这是一个简单的文本标注哦~"
             point={center}
             offset={offset}
             style={style}
-          />
+          >
+            <Content>
+              欢迎使用百度地图，这是一个简单的文本标注哦~
+            </Content>
+          </Label>
         </Map>
       </div>
     );

@@ -9,6 +9,8 @@ import {
 } from 'rc-bmap';
 import { Button } from 'antd';
 
+const { Path, Point } = Polygon;
+
 class Example extends Component {
   constructor(props) {
     super(props);
@@ -97,11 +99,18 @@ class Example extends Component {
                   strokeOpacity={0.5}
                 />
                 <Polygon
-                  points={polygonPoints}
                   strokeColor="blue"
                   strokeWeight={2}
                   strokeOpacity={0.5}
-                />
+                >
+                  <Path>
+                    {
+                      polygonPoints.map(item => (
+                        <Point lng={item.lng} lat={item.lat} />
+                      ))
+                    }
+                  </Path>
+                </Polygon>
                 <Marker point={center} />
               </React.Fragment>
             )

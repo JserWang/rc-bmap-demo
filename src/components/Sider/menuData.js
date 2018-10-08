@@ -12,6 +12,10 @@ export default [
         path: '/double',
       },
       {
+        text: '设置地图加载前占位',
+        path: '/placeholder',
+      },
+      {
         text: '根据城市名设置地图中心点',
         path: '/center',
       },
@@ -189,18 +193,6 @@ export default [
       {
         text: '添加图文结合的信息窗口',
         path: '/picture',
-      },
-      {
-        text: '添加带检索功能的信息窗口',
-        path: '/search',
-      },
-      {
-        text: '给多个点添加信息窗口',
-        path: '/multiple',
-      },
-      {
-        text: '获取信息窗口的内容',
-        path: '/getContent',
       },
     ],
   },
