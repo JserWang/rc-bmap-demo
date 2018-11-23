@@ -93,11 +93,18 @@ class Example extends Component {
                   strokeOpacity={0.5}
                 />
                 <Polyline
-                  points={polylinePoints}
                   strokeColor="blue"
                   strokeWeight={2}
                   strokeOpacity={0.5}
-                />
+                >
+                  <Path>
+                    {
+                      polylinePoints.map(item => (
+                        <Point lng={item.lng} lat={item.lat} />
+                      ))
+                    }
+                  </Path>
+                </Polyline>
                 <Polygon
                   strokeColor="blue"
                   strokeWeight={2}
