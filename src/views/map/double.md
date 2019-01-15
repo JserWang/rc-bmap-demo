@@ -1,25 +1,19 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Map } from 'rc-bmap';
+import { Map, Base } from 'rc-bmap';
+
+const { Point } = Base;
 
 class Example extends Component {
-  state = {
-    center: {
-      lng: 116.404,
-      lat: 39.915,
-    },    
-  }
-  
   onTopMapMounted = () => {
-    console.log(window.topMap);
+    console.log('window.topMap', window.topMap);
   }
 
   onBottomMapMounted = () => {
-    console.log(window.bottomMap);
+    console.log('window.bottomMap', window.bottomMap);
   }
 
   render() {
-    const { center } = this.state;
     return (
       <div>
         <div style={{ height: '50vh' }}>
@@ -27,20 +21,22 @@ class Example extends Component {
             ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
             name="topMap"
             mounted={this.onTopMapMounted}
-            center={center}
             zoom={15}
             scrollWheelZoom
-          />
+          >
+            <Point name="center" lng="116.404" lat="39.915" />
+          </Map>
         </div>
         <div style={{ height: '50vh' }}>
           <Map
             ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
             name="bottomMap"
             mounted={this.onBottomMapMounted}
-            center={center}
             zoom={15}
             scrollWheelZoom
-          />
+          >
+            <Point name="center" lng="116.404" lat="39.915" />
+          </Map>
         </div>
       </div>
     );

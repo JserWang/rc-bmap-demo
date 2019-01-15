@@ -6,56 +6,52 @@ import {
   Marker,
   Polygon,
   Polyline,
+  Base,
 } from 'rc-bmap';
 import { Button } from 'antd';
 
-const { Path, Point } = Polygon;
+const { Point, Path } = Base;
+
+const polygonPoints = [
+  {
+    lng: 116.387112,
+    lat: 39.920977,
+  }, {
+    lng: 116.385243,
+    lat: 39.913063,
+  },
+  {
+    lng: 116.394226,
+    lat: 39.917988,
+  },
+  {
+    lng: 116.401772,
+    lat: 39.921364,
+  },
+  {
+    lng: 116.41248,
+    lat: 39.927893,
+  },
+];
+
+const polylinePoints = [
+  {
+    lng: 116.399,
+    lat: 39.910,
+  },
+  {
+    lng: 116.405,
+    lat: 39.920,
+  },
+  {
+    lng: 116.425,
+    lat: 39.900,
+  },
+];
 
 class Example extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      center: {
-        lng: 116.404,
-        lat: 39.915,
-      },
-      polylinePoints: [
-        {
-          lng: 116.399,
-          lat: 39.910,
-        },
-        {
-          lng: 116.405,
-          lat: 39.920,
-        },
-        {
-          lng: 116.425,
-          lat: 39.900,
-        },
-      ],
-      polygonPoints: [
-        {
-          lng: 116.387112,
-          lat: 39.920977,
-        }, {
-          lng: 116.385243,
-          lat: 39.913063,
-        },
-        {
-          lng: 116.394226,
-          lat: 39.917988,
-        },
-        {
-          lng: 116.401772,
-          lat: 39.921364,
-        },
-        {
-          lng: 116.41248,
-          lat: 39.927893,
-        },
-      ],
-      isShow: false,
-    };
+  state = {
+    isShow: false,
   }
 
   handleAdd = () => {
@@ -72,32 +68,40 @@ class Example extends Component {
 
   render() {
     const {
-      center, polylinePoints, polygonPoints, isShow,
+      isShow,
     } = this.state;
     return (
       <div style={{ height: '90vh' }}>
         <Map
           ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
-          center={center}
           zoom={15}
           scrollWheelZoom
         >
+          <Point name="center" lng="116.404" lat="39.915" />
           {
             isShow && (
               <React.Fragment>
                 <Circle
-                  point={center}
                   strokeColor="blue"
                   radius={500}
                   strokeWeight={2}
                   strokeOpacity={0.5}
-                />
+                >
+                  <Point name="center" lng="116.404" lat="39.915" />
+                </Circle>
                 <Polyline
-                  points={polylinePoints}
                   strokeColor="blue"
                   strokeWeight={2}
                   strokeOpacity={0.5}
-                />
+                >
+                  <Path>
+                    {
+                      polylinePoints.map(item => (
+                        <Point lng={item.lng} lat={item.lat} />
+                      ))
+                    }
+                  </Path>
+                </Polyline>
                 <Polygon
                   strokeColor="blue"
                   strokeWeight={2}
@@ -111,7 +115,9 @@ class Example extends Component {
                     }
                   </Path>
                 </Polygon>
-                <Marker point={center} />
+                <Marker>
+                  <Point lng="116.404" lat="39.915" />
+                </Marker>
               </React.Fragment>
             )
           }

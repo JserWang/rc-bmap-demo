@@ -1,35 +1,39 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Map, Boundary } from 'rc-bmap';
+import { Map, Boundary, Base } from 'rc-bmap';
+import { Button } from 'antd';
+
+const { Point } = Base;
 
 class Example extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      center: {
-        lng: 116.403765,
-        lat: 39.914850,
-      },
-    };
+  state = {
+    name: '北京市海淀区'
+  }
+
+  handleChange = () => {
+    this.setState({
+      name: '北京市朝阳区'
+    });
   }
 
   render() {
-    const { center } = this.state;
+    const { name } = this.state;
     return (
-      <div style={{ height: '100vh' }}>
+      <div style={{ height: '80vh' }}>
         <Map
-          ak="dbLUj1nQTvDvKXkov5fhnH5HIE88RUEO"
-          center={center}
+          ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
           zoom={5}
           scrollWheelZoom
         >
+          <Point name="center" lng="116.404" lat="39.915" />
           <Boundary
             autoViewport
-            name="北京市海淀区"
+            name={name}
             strokeColor="#ff0000"
             strokeWeight={2}
           />
         </Map>
+        <Button onClick={this.handleChange}>改变为朝阳区</Button>
       </div>
     );
   }

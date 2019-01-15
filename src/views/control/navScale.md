@@ -2,23 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {
   Map,
-  ControlAnchor,
+  Constants,
   Navigation,
-  NavigationType,
   Scale,
+  Base,
 } from 'rc-bmap';
 import { Button } from 'antd';
 
+const { CONTROL_ANCHOR, NAVIGATION_CONTROL_TYPE } = Constants;
+
+const { Point } = Base;
+
 class Example extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      center: {
-        lng: 116.404,
-        lat: 39.915,
-      },
-      isShow: false,
-    };
+  state = {
+    isShow: false,
   }
 
   handleAdd = () => {
@@ -34,25 +31,23 @@ class Example extends React.Component {
   }
 
   render() {
-    const {
-      center, isShow,
-    } = this.state;
+    const { isShow } = this.state;
     return (
       <div style={{ height: '90vh' }}>
         <Map
           ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
-          center={center}
           zoom={11}
           scrollWheelZoom
         >
+          <Point name="center" lng="116.404" lat="39.915" />
           {
             isShow && (
               <React.Fragment>
-                <Scale anchor={ControlAnchor.TOP_LEFT} />
+                <Scale anchor={CONTROL_ANCHOR.TOP_LEFT} />
                 <Navigation />
                 <Navigation
-                  anchor={ControlAnchor.TOP_RIGHT}
-                  type={NavigationType.SMALL}
+                  anchor={CONTROL_ANCHOR.TOP_RIGHT}
+                  type={NAVIGATION_CONTROL_TYPE.SMALL}
                 />
               </React.Fragment>
             )

@@ -2,19 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {
   Map,
-  Events,
+  Base,
 } from 'rc-bmap';
 
+const { Events, Point } = Base;
+
 class Example extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      center: {
-        lng: 116.404,
-        lat: 39.915,
-      },
-    };
-  }
 
   handleMapClick = () => {
     console.log('单击地图');
@@ -25,15 +18,14 @@ class Example extends React.Component {
   }
 
   render() {
-    const { center } = this.state;
     return (
       <div style={{ height: '100vh' }}>
         <Map
           ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
-          center={center}
           zoom={11}
           scrollWheelZoom
         >
+          <Point name="center" lng="116.404" lat="39.915" />
           {/* 这里的事件名以及参数，均可参考百度官方文档 */}
           <Events
             click={this.handleMapClick}

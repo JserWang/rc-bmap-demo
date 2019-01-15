@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Map, Marker } from 'rc-bmap';
+import { Map, Marker, Base } from 'rc-bmap';
 import { Button } from 'antd';
 
+const { Point } = Base;
+
 class Example extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      center: { 
-        lng: 116.404,
-        lat: 39.915,
-      },
-      dragging: false,
-    };
+  state = {
+    dragging: false,
   }
 
   handleDragging = () => {
@@ -33,17 +28,17 @@ class Example extends Component {
       <div style={{ height: '90vh' }}>
         <Map
           ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
-          center={center}
           zoom={15}
           scrollWheelZoom
+          mapClick={false}
         >
-          <Marker
-            point={center}
-            dragging={dragging}
-          />
-          <Button onClick={this.handleDragging}>可拖拽</Button>
-          <Button onClick={this.handleCancelDragging}>不可拖拽</Button>
+          <Point name="center" lng="116.404" lat="39.915" />
+          <Marker dragging={dragging}>
+            <Point lng="116.404" lat="39.915" />
+          </Marker>
         </Map>
+        <Button onClick={this.handleDragging}>可拖拽</Button>
+        <Button onClick={this.handleCancelDragging}>不可拖拽</Button>
       </div>
     );
   }

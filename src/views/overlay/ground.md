@@ -1,79 +1,44 @@
-/**
- *@title：添加/删除地面叠加层
- */
-
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Map, Ground } from 'rc-bmap';
-import { Button } from 'antd';
+import { Map, Ground, Base } from 'rc-bmap';
 
-class GroundExample extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      bounds: {
-        sw: {
-          lng: 116.295,
-          lat: 39.837,
-        },
-        ne: {
-          lng: 116.475,
-          lat: 39.976,
-        },
-      },
-      imageURL: 'http://lbsyun.baidu.com/jsdemo/img/si-huan.png',
-      opacity: 1,
-      maxZoom: 14,
-      minZoom: 10,
-      events: {
-        click: this.handleClick,
-      },
-      visible: false,
-    };
-  }
+const { Point, Bounds, Events } = Base;
 
-  addGround = () => {
-    this.setState({
-      visible: true,
-    });
-  }
-
-  removeGround = () => {
-    this.setState({
-      visible: false,
-    });
+class Example extends Component {
+  handleClick = () => {
+    console.log('click');
   }
 
   render() {
-    const {
-      bounds, opacity, maxZoom, minZoom, events, imageURL, visible,
-    } = this.state;
     return (
-      <div style={{ height: '90vh' }}>
+      <div style={{ height: '100vh' }}>
         <Map
           ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
           scrollWheelZoom
           zoom={12}
         >
-          {visible
-          && (<Ground
-            bounds={bounds}
-            imageURL={imageURL}
-            opacity={opacity}
-            maxZoom={maxZoom}
-            minZoom={minZoom}
-            events={events}
-          />
-          )}
+          <Point name="center" lng="116.404" lat="39.915" />
+          <Ground
+            imageURL="http://lbsyun.baidu.com/jsdemo/img/si-huan.png"
+            opacity={1}
+            displayOnMinLevel={10}
+            displayOnMaxLevel={14}
+          >
+            <Bounds>
+              <Point name="sw" lng="116.295" lat="39.837" />
+              <Point name="ne" lng="116.475" lat="39.976" />
+            </Bounds>
+            <Events
+              click={this.handleClick}
+            />
+          </Ground>
         </Map>
-        <Button onClick={this.addGround}>添加</Button>
-        <Button onClick={this.removeGround}>删除</Button>
       </div>
     );
   }
 }
 
 ReactDOM.render(
-  <GroundExample />,
+  <Example />,
   document.getElementById('root'),
 );

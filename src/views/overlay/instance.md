@@ -1,46 +1,38 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Map, Marker } from 'rc-bmap';
+import { Map, Marker, Base } from 'rc-bmap';
+
+const { Point, Events } = Base;
 
 class Example extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      center: {
-        lng: 116.400244,
-        lat: 39.92556,
-      },
-      events: {
-        click: this.handleClick,
-      },
-    };
-  }
-
   handleClick = () => {
     const position = this.marker.getPosition();
     alert(`marker的位置是${position.lng}，${position.lat}`);
   }
 
-  getMarker = (instance) => {
-    this.marker = instance;
+  getMarker = (ref) => {
+    if (ref) {
+    	this.marker = ref.instance;
+    }
   }
 
   render() {
-    const {
-      center, events,
-    } = this.state;
+
     return (
       <div style={{ height: '100vh' }}>
         <Map
           ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
-          center={center}
           scrollWheelZoom
+          mapClick={false}
+          zoom={14}
         >
+          <Point name="center" lng="116.404" lat="39.915" />
           <Marker
-            getInstance={this.getMarker}
-            point={center}
-            events={events}
-          />
+            ref={this.getMarker}
+          >
+            <Point lng="116.404" lat="39.915" />
+            <Events click={this.handleClick} />
+          </Marker>
         </Map>
       </div>
     );

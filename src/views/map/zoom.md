@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Map } from 'rc-bmap';
+import { Map, Base } from 'rc-bmap';
+
+const { Point } = Base;
 
 class Example extends Component {
   state = {
-    center: {
-      lng: 116.404,
-      lat: 39.915,
-    },
     zoom: 8,     
   }
 
@@ -28,10 +26,10 @@ class Example extends Component {
       <div style={{ height: '100vh' }}>
         <Map
           ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
-          center={center}
           zoom={zoom}
           scrollWheelZoom
         >
+          <Point name="center" lng="116.404" lat="39.915" />
         </Map>
       </div>
     );

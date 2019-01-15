@@ -2,40 +2,28 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import {
   Map,
+  Base,
   Marker,
-  Animation,
+  Constants,
 } from 'rc-bmap';
 
-class Example extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      center: {
-        lng: 116.404,
-        lat: 39.915,
-      },
-    };
-  }
+const { Point } = Base;
+const { ANIMATION } = Constants;
 
-  render() {
-    const { center } = this.state;
-    return (
-      <div style={{ height: '100vh' }}>
-        <Map
-          ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
-          center={center}
-          zoom={15}
-          scrollWheelZoom
-        >
-          <Marker
-            point={center}
-            animation={Animation.BOUNCE}
-          />
-        </Map>
-      </div>
-    );
-  }
-}
+const Example = () => (
+  <div style={{ height: '100vh' }}>
+    <Map
+      ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
+      zoom={15}
+      scrollWheelZoom
+    >
+      <Point name="center" lng="116.404" lat="39.915" />
+      <Marker animation={ANIMATION.BOUNCE}>
+        <Point lng="116.404" lat="39.915" />
+      </Marker>
+    </Map>
+  </div>
+);
 
 ReactDOM.render(
   <Example />,

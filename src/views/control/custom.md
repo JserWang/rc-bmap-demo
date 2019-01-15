@@ -3,11 +3,21 @@ import ReactDOM from 'react-dom';
 import { Button } from 'antd';
 import {
   Map,
+  Base,
   CustomControl as Custom,
-  ReactComponent,
-  ControlAnchor,
-  Offset,
+  Constants,
 } from 'rc-bmap';
+
+const { CONTROL_ANCHOR } = Constants;
+const { Size, Point } = Base;
+
+const customContainerStyle = {
+  backgroundColor: '#fff',
+  cursor: 'pointer',
+  border: '1px solid #333',
+  padding: 10,
+  borderRadius: 3,
+};
 
 @Custom
 class CustomControl extends Component {
@@ -20,11 +30,7 @@ class CustomControl extends Component {
   render() {
     return (
       <div
-        style={{
-          backgroundColor: '#fff',
-          cursor: 'pointer',
-          border: '1px solid #333',
-        }}
+        style={customContainerStyle}
         onClick={this.handleClick}
       >
         放大2级
@@ -34,15 +40,8 @@ class CustomControl extends Component {
 }
 
 class Example extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      center: {
-        lng: 116.404,
-        lat: 39.915,
-      },
-      visible: true,
-    };
+  state = {
+    visible: false,
   }
 
   handleShow = () => {
@@ -58,20 +57,20 @@ class Example extends Component {
   }
 
   render() {
-    const { center, visible } = this.state;
+    const { visible } = this.state;
     return (
       <div style={{ height: '90vh' }}>
         <Map
           ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
-          center={center}
           zoom={11}
           scrollWheelZoom
         >
+          <Point name="center" lng="116.404" lat="39.915" />
           <CustomControl
             visible={visible}
-            anchor={ControlAnchor.TOP_LEFT}
+            anchor={CONTROL_ANCHOR.TOP_LEFT}
           >
-            <Offset width="10" height="20" />
+            <Size name="offset" width="10" height="20" />
           </CustomControl>
         </Map>
         <Button onClick={this.handleShow}>显示</Button>

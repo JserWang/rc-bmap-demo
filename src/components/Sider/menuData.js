@@ -132,14 +132,6 @@ export default [
         text: '获取覆盖物信息',
         path: '/instance',
       },
-      {
-        text: '添加多个点示例',
-        path: '/multiple',
-      },
-      {
-        text: '从多个点里删除特定点',
-        path: '/remove',
-      },
       // {
       //   text: '加载闪烁点',
       //   path: '/showStars',
@@ -148,10 +140,10 @@ export default [
         text: '加载海量点',
         path: '/massive',
       },
-      {
-        text: '添加弧线',
-        path: '/curveline',
-      },
+      // {
+      //   text: '添加弧线',
+      //   path: '/curveline',
+      // },
       {
         text: '添加椭圆',
         path: '/oval',
@@ -168,14 +160,14 @@ export default [
         text: '添加/删除地面叠加层',
         path: '/ground',
       },
-      {
-        text: '点聚合',
-        path: '/markerClusterer',
-      },
-      {
-        text: '添加热力图',
-        path: '/heatmap',
-      },
+      // {
+      //   text: '点聚合',
+      //   path: '/markerClusterer',
+      // },
+      // {
+      //   text: '添加热力图',
+      //   path: '/heatmap',
+      // },
       {
         text: '矢量图标',
         path: '/symbol',
@@ -216,19 +208,19 @@ export default [
     children: [
       {
         text: '叠加/删除路况图层',
-        path: '/trafficControl',
+        path: '/traffic',
       },
       {
         text: '叠加/删除清华微观图',
-        path: '/tileLayer1',
+        path: '/tile',
       },
       {
         text: '叠加/删除魔兽地图',
-        path: '/tileLayer2',
+        path: '/tile2',
       },
       {
         text: '叠加/删除自定义网格',
-        path: '/tileLayer3',
+        path: '/tile3',
       },
     ],
   },
@@ -237,28 +229,8 @@ export default [
     path: '/event',
     children: [
       {
-        text: '图块加载完成事件',
-        path: '/tilesloaded',
-      },
-      {
-        text: '地图单击事件',
+        text: '绑定事件',
         path: '/click',
-      },
-      {
-        text: '给覆盖物注册事件',
-        path: '/addEvent',
-      },
-      {
-        text: '传递事件参数',
-        path: '/param',
-      },
-      {
-        text: '为多个点注册单击事件',
-        path: '/addEvents',
-      },
-      {
-        text: '注销事件',
-        path: '/removeEvent',
       },
     ],
   },

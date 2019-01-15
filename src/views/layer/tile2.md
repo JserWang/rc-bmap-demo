@@ -1,75 +1,40 @@
-/**
- *@title：叠加/删除魔兽地图
- */
-
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import {
   Map,
-  Tile,
-  Navigation,
+  TileLayer,
+  Base,
 } from 'rc-bmap';
-import { Button } from 'antd';
+import { Input, Button } from 'antd';
 
-class TileExample extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      zoom: 3,
-      center: {
-        lng: 116.332782,
-        lat: 40.007978,
-      },
-      visible: true,
-    };
-  }
+const { Point } = Base;
 
+class Example extends Component {
   getTilesUrl = (tileCoord, zoom) => {
     const { x, y } = tileCoord;
+    // 根据当前坐标，选取合适的瓦片图
     return `http://lbsyun.baidu.com/jsdemo/demo/tiles/${zoom}/tile${x}_${y}.png`;
-  };
-
-  addTileLayer = () => {
-    this.setState({
-      visible: true,
-    });
-  }
-
-  removeTileLayer = () => {
-    this.setState({
-      visible: false,
-    });
   }
 
   render() {
-    const {
-      zoom, center, copyright, visible,
-    } = this.state;
     return (
-      <div style={{ height: '90vh' }}>
+      <div style={{ height: '100vh' }}>
         <Map
-          ak="dbLUj1nQTvDvKXkov5fhnH5HIE88RUEO"
+          ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
           scrollWheelZoom
-          center={center}
-          zoom={zoom}
+          zoom={3}
         >
-          {visible
-          && (<Tile
-            copyright={copyright}
+          <Point name="center" lng="0" lat="0" />
+          <TileLayer 
             getTilesUrl={this.getTilesUrl}
-            transparentPng
           />
-          )}
-          <Navigation />
         </Map>
-        <Button onClick={this.addTileLayer}>添加</Button>
-        <Button onClick={this.removeTileLayer}>删除</Button>
       </div>
     );
   }
 }
 
 ReactDOM.render(
-  <TileExample />,
+  <Example />,
   document.getElementById('root'),
 );

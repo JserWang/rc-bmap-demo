@@ -2,35 +2,25 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import {
   Map,
-  Overlay,
-  CustomOverlay as Custom,
+  TrafficLayer,
   Base,
 } from 'rc-bmap';
+import { Input, Button } from 'antd';
 
 const { Point } = Base;
 
-@Custom
-class CustomOverlay extends Component {
-  render() {
-    return (
-      <div>这是一个自定义图层</div>
-    );
-  }
-}
+class Example extends Component {
 
-class Example extends React.Component {
   render() {
     return (
       <div style={{ height: '100vh' }}>
         <Map
           ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
-          zoom={15}
           scrollWheelZoom
+          zoom={16}
         >
-          <Point name="center" lng="116.3964" lat="39.9093" />
-          <CustomOverlay>
-          	<Point lng="116.407845"  lat="39.914101" />
-          </CustomOverlay>
+          <Point name="center" lng="116.332782" lat="40.007978" />
+          <TrafficLayer />
         </Map>
       </div>
     );

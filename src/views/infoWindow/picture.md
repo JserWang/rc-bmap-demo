@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import {
   Map, InfoWindow,
-  Marker, Events,
+  Marker, Base,
 } from 'rc-bmap';
 
+const { Point, Events } = Base;
 const { Content } = InfoWindow;
 
 const headerStyle = {
@@ -25,15 +26,8 @@ const contentStyle = {
 };
 
 class Example extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      point: {
-        lng: 116.404,
-        lat: 39.915,
-      },
-      visible: false,
-    };
+  state = {
+    visible: false,
   }
 
   clickMarker = () => {
@@ -43,24 +37,21 @@ class Example extends Component {
   }
 
   render() {
-    const {
-      point, visible,
-    } = this.state;
+    const { visible } = this.state;
     return (
       <div style={{ height: '90vh' }}>
         <Map
           ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
-          center={point}
           zoom={15}
           scrollWheelZoom
         >
-          <Marker point={point}>
+          <Point name="center" lng="116.404" lat="39.915" />
+          <Marker>
+            <Point lng="116.404" lat="39.915" />
             <Events click={this.clickMarker} />
           </Marker>
-          <InfoWindow
-            visible={visible}
-            point={point}
-          >
+          <InfoWindow visible={visible}>
+            <Point lng="116.404" lat="39.915" />
             <Content>
               <h4 style={headerStyle}>天安门</h4>
               <img

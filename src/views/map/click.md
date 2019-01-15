@@ -1,30 +1,20 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Map } from 'rc-bmap';
+import { Map, Base } from 'rc-bmap';
 
-class Example extends Component {
-  state = {
-    center: {
-      lng: 116.404,
-      lat: 39.915,
-    },
-  }
+const { Point } = Base;
 
-  render() {
-    const { center } = this.state;
-    return (
-      <div style={{ height: '100vh' }}>
-        <Map
-          ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
-          center={center}
-          zoom={12}
-          mapClick={false}
-        >
-        </Map>
-      </div>
-    );
-  }
-}
+const Example = () => (
+  <div style={{ height: '100vh' }}>
+    <Map
+      ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
+      zoom={12}
+      mapClick={false}
+    >
+      <Point name="center" lng="116.404" lat="39.915" />
+    </Map>
+  </div>
+);
 
 ReactDOM.render(
   <Example />,

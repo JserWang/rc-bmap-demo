@@ -3,19 +3,12 @@ import ReactDOM from 'react-dom';
 import {
   Map,
   Geolocation,
-  Events,
+  Base,
 } from 'rc-bmap';
 
+const { Point, Events } = Base;
+
 class Example extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      center: {
-        lng: 116.404,
-        lat: 39.915,
-      },
-    };
-  }
 
   handleLocationSuccess = (e) => {
     // 定位成功事件
@@ -34,17 +27,14 @@ class Example extends React.Component {
   }
 
   render() {
-    const {
-      center, events,
-    } = this.state;
     return (
       <div style={{ height: '100vh' }}>
         <Map
           ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
-          center={center}
           zoom={11}
           scrollWheelZoom
         >
+          <Point name="center" lng="116.404" lat="39.915" />
           <Geolocation>
             <Events 
               locationSuccess={this.handleLocationSuccess}

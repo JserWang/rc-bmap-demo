@@ -13,7 +13,7 @@ class Example extends Component {
   getTilesUrl = (tileCoord, zoom) => {
     const { x, y } = tileCoord;
     // 根据当前坐标，选取合适的瓦片图
-    return "http://lbsyun.baidu.com/jsdemo/img/border.png";
+    return `http://lbsyun.baidu.com/jsdemo/demo/tiles/${zoom}/tile${x}_${y}.png`;
   }
 
   render() {
@@ -22,9 +22,9 @@ class Example extends Component {
         <Map
           ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
           scrollWheelZoom
-          zoom={15}
+          zoom={16}
         >
-          <Point name="center" lng="116.404" lat="39.915" />
+          <Point name="center" lng="116.332782" lat="40.007978" />
           <TileLayer 
             getTilesUrl={this.getTilesUrl}
             transparentPng

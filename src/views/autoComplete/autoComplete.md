@@ -1,59 +1,79 @@
-/**
- *@title：关键字提示输入
- */
-
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import {
   Map,
   AutoComplete,
+  Base,
 } from 'rc-bmap';
-import { Button } from 'antd';
+import { Input, Button } from 'antd';
 
-class AutoCompleteExample extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      location: '北京市',
-      value: '',
-      events: {
-        onconfirm() {
-          console.log('onconfirm');
-        },
-        onhighlight() {
-          console.log('onhighlight');
-        },
-      },
-    };
+const { Point, Events } = Base;
+
+class Example extends Component {
+  state = {
+    visible: true,
+    value: '百度'
   }
 
-  searchComplete = () => {
+  getAutoComplete = (ref) => {
+    if (ref) {
+      console.log(ref);
+    }
+  }
+
+  onSearchComplete = () => {
     console.log('searchComplete');
   }
 
+  handleConfirm = () => {
+    console.log('confirm');
+  }
+
+  handleHighlight = () => {
+    console.log('highlight');
+  }
+
+  handleChange = () => {
+    this.setState({
+      visible: false
+    });
+  }
+
   render() {
-    const { events, location, value } = this.state;
+    const { value, visible } = this.state;
     return (
-        <div style={{ height: '70vh' }}>
-          <Map
-            ak="dbLUj1nQTvDvKXkov5fhnH5HIE88RUEO"
-            scrollWheelZoom
-          >
-            <AutoComplete
+      <div style={{ height: '70vh' }}>
+        <Map
+          ak="WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"
+          scrollWheelZoom
+          zoom={14}
+        >
+          <Point name="center" lng="116.404" lat="39.915" />
+          {
+            visible && <AutoComplete
+              ref={this.getAutoComplete}
               input="suggest"
-              searchComplete={this.searchComplete}
-              events={events}
-              location={location}
+              location="北京市"
               value={value}
-            />
-          </Map>
-          <input id="suggest" />
+              onSearchComplete={this.onSearchComplete}
+            >
+              <Events
+                onconfirm={this.handleConfirm}
+                onhighlight={this.handleHighlight}
+              />
+            </AutoComplete>
+          }
+        </Map>
+        <div>
+          请输入：<Input id="suggest" />
         </div>
+        <Button onClick={this.handleChange}>修改文本</Button>
+      </div>
     );
   }
 }
 
 ReactDOM.render(
-  <AutoCompleteExample />,
+  <Example />,
   document.getElementById('root'),
 );
