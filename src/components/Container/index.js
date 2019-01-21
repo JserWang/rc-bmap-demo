@@ -38,7 +38,7 @@ class Container extends Component {
   }
 
   componentDidMount() {
-    // this.handleRunClick();
+    this.handleRunClick();
   }
 
   handleCodeChange = (instance) => {

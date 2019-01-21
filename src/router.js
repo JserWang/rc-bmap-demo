@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Route,
   Switch,
-  Redirect,
 } from 'react-router-dom';
 
 import Container from 'components/Container';
@@ -26,7 +25,6 @@ export default () => (
           />
         ))
       }
-      {/* <Redirect from="/" exact to="/map/show" /> */}
     </React.Fragment>
   </Switch>
 );

@@ -35,11 +35,6 @@ export default [
         text: '拖拽地图',
         path: '/dragging',
       },
-      // TODO: rc-bmap 需支持
-      // {
-      //   text: '设置地图显示范围',
-      //   path: '/setBounds',
-      // },
       {
         text: '获取地图显示范围',
         path: '/bounds',

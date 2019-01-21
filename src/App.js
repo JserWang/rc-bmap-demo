@@ -10,7 +10,7 @@ const {
 } = Layout;
 
 const App = () => (
-  <Router>
+  <Router basename="/bmap/examples/">
     <Layout>
       <Sider />
       <Layout className={styles.right}>

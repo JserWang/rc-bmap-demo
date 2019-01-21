@@ -94,6 +94,7 @@ class Sider extends Component {
     const { siderWidth, openKeys, defaultSelectedKeys } = this.state;
     return (
       <AntdSider
+        theme="light"
         width={siderWidth}
       >
         <div

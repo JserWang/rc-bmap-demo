@@ -8,7 +8,9 @@ class Example extends Component {
   onMapMounted = (mapInstance) => {
     // 两秒后移动到广州
 		setTimeout(() => {
-    	mapInstance.panTo(BMapUtil.BPoint(113.262232, 23.154345));
+    	mapInstance.panTo(BMapUtil.BPoint({
+        lng: 113.262232, lat: 23.154345
+      }));
     }, 2000);
 	}
 
