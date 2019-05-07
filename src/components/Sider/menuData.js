@@ -247,6 +247,10 @@ export default [
         text: '测距工具',
         path: '/distance',
       },
+      {
+        text: '热力图',
+        path: '/heatmap',
+      },
     ],
   },
 ];
