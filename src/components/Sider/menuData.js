@@ -239,4 +239,14 @@ export default [
       },
     ],
   },
+  {
+    text: '第三方库',
+    path: '/library',
+    children: [
+      {
+        text: '测距工具',
+        path: '/distance',
+      },
+    ],
+  },
 ];
