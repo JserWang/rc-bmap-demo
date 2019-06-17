@@ -5,7 +5,6 @@ import {
   Base,
   Marker,
   Constants,
-  BMapUtil,
   MarkerClusterer,
 } from 'rc-bmap';
 
