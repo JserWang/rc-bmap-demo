@@ -7,3 +7,5 @@ yarn-error.log*
 .idea
 dist
 publish.sh
+
+package-lock.json
