@@ -6,6 +6,7 @@ function appendHtml(scripts) {
       <html>
         <head>
           <meta charset="UTF-8">
+          <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=WAeVpuoSBH4NswS30GNbCRrlsmdGB5Gv"></script>
           <style>html, body, #root { margin: 0; padding: 0; height: 100%; }</style>
         </head>
         <body>

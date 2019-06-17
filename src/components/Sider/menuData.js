@@ -251,6 +251,10 @@ export default [
         text: '热力图',
         path: '/heatmap',
       },
+      {
+        text: '点聚合',
+        path: '/markerClusterer',
+      },
     ],
   },
 ];
